@@ -5,19 +5,25 @@
   <title>hzcss Demonstration</title>
   <link rel="stylesheet" href="styles/base.css">
   <!-- <link rel="stylesheet" href="styles/ui.css"> -->
-  <!-- <link rel="stylesheet" href="styles/hz.css"> -->
+  <link rel="stylesheet" href="styles/hz.css">
   <!-- <link rel="shortcut icon" href="favicon.ico"> -->
   <!-- <script src="script.js"></script> -->
 </head>
 <body>
-<div class="root">
-  <div class="header">
+<div id="root">
+  <div id="header">
     <h1>hzcss Demonstration</h1>
-    <h5>The Page Subtitle</h5>
+    <nav>
+      <ul>
+        <li><a href="#1">Navigation 1</a></li>
+        <li><a href="#1">Navigation 2</a></li>
+        <li><a href="#1">Navigation 3</a></li>
+      </ul>
+    </nav>
   </div>
-  <div class="body">
-    <div class=""></div>
-    <div class="">
+  <div id="content" class="row">
+    <div class="column"></div>
+    <div class="column">
       <h1>Heading H1</h1>
       <h2>Heading H2</h2>
       <hr>
@@ -69,7 +75,7 @@
         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
       </blockquote>
     </div>
-    <div class=""></div>
+    <div class="column"></div>
   </div>
 </div>
 </body>
