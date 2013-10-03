@@ -1,0 +1,27 @@
+/* hzcss - User Interface Style Sheet - Zac Hester */
+
+a:hover {
+  text-shadow: 0 0 4px #DDDDDD;
+  transition: all 0.5s ease;
+}
+
+input[type=text], textarea {
+  border: solid 1px #DDDDDD;
+  border-top-color: #BBBBBB;
+  border-radius: 2px;
+  color: inherit;
+  background-color: #FFFFFF;
+}
+input[type=text]:hover, textarea:hover {
+  border-color: #E0E0EF;
+  border-top-color: #777799;
+  transition: all 1s ease;
+}
+input[type=text]:focus, textarea:focus {
+  border-color: #AAAAAA;
+  border-top-color: #555577;
+}
+
+/* ZIH - add button class to draw text buttons */
+/* ZIH - add button class to draw SVG buttons */
+/* ZIH - add animated status bar styles */
