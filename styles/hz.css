@@ -1,0 +1,45 @@
+/* hzcss - hz Common Styles - Zac Hester */
+
+#header {
+  margin: 0;
+  padding: 0.4em 0.75em 0.3em 0.75em;
+  color: #BBBBBB;
+  background-color: #2D2D2D;
+  border-bottom: solid 1px #000000;
+  font-size: 10pt;
+}
+  #header h1 {
+    color: #BBBBBB;
+    margin: 0;
+    float: right;
+    font-size: 100%;
+  }
+    #header nav ul {
+      margin: 0;
+      padding: 0;
+    }
+    #header nav li {
+      display: inline-block;
+      margin: 0;
+      padding: 0 1.5em 0 0;
+    }
+    #header nav a {
+      color: #DDDDDD;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    #header nav a:hover {
+      color: #FFFFFF;
+    }
+
+#content {
+  padding: 0.01em 1.5em;
+}
+
+.clear:after, #header:after, #content:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
