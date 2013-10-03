@@ -1,0 +1,31 @@
+/* hzcss - Base Style Sheet - Zac Hester */
+
+/* rendering */
+body { margin: 0; padding: 0; }
+h1, h2, h3, h4, h5, h6, p, address, blockquote, pre, ul, ol, dl, form {
+  margin: 0.5em 0;
+  padding: 0;
+}
+li { margin: 0 0 0 2em; }
+blockquote { padding: 0 2em; }
+img { border: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+hr { margin: 0.1em 0; border: none; border-top: 1px solid; }
+
+/* typography */
+body { font: 12pt/130% Arial, Helvetica, sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-family: Tahoma, Geneva, sans-serif; }
+h1 { font-size: 150%; }
+h2 { font-size: 140%; }
+h3 { font-size: 130%; }
+h4 { font-size: 120%; }
+h5 { font-size: 110%; }
+h6 { font-size: 100%; }
+
+/* colors */
+body { color: #333333; background-color: #FFFFFF; }
+h1, h2, h3, h4, h5, h6 { color: #666666; }
+a { color: #0000CC; }
+a:visited { color: #000066; }
+a:hover { color: #0066FF; }
+hr { border-color: #CCCCCC; }
