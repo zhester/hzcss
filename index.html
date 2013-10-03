@@ -4,7 +4,9 @@
   <meta charset="utf-8">
   <title>hzcss Demonstration</title>
   <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
   <!-- <link rel="stylesheet" href="styles/ui.css"> -->
+  <!-- <link rel="stylesheet" href="styles/_test.css"> -->
   <link rel="stylesheet" href="styles/hz.css">
   <!-- <link rel="shortcut icon" href="favicon.ico"> -->
   <!-- <script src="script.js"></script> -->
@@ -21,70 +23,94 @@
       </ul>
     </nav>
   </div>
-  <div id="content" class="row">
-    <div class="column">
-      <h2>Left Column</h2>
-      <p>
-        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-      </p>
+  <div id="content">
+    <div class="row">
+      <div class="column quarter">
+        <h2>Left Column</h2>
+        <hr>
+        <p>
+          Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+        </p>
+      </div>
+      <div class="column half">
+        <h1>Heading H1</h1>
+        <h2>Heading H2</h2>
+        <hr>
+        <h3>Heading H3</h3>
+        <h4><a href="#">Heading H4</a></h4>
+        <h5>Heading H5</h5>
+        <hr>
+        <h6>Heading H6</h6>
+        <p>
+          Lorem ipsum dolor sit amet, <a href="#">consectetur</a> adipiscing elit.
+          Ut eleifend elementum lectus, blandit sollicitudin mi condimentum vel.
+          Quisque sit amet malesuada diam.
+          Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+          Phasellus faucibus quis ipsum non lobortis.
+          In suscipit purus at diam cursus condimentum.
+          Nullam posuere nec sem sed malesuada.
+          Nam rutrum facilisis magna a tempus.
+          Mauris auctor, dui at imperdiet varius, tellus nunc rhoncus ante, non convallis metus metus id risus.
+          Donec malesuada augue ligula, vel condimentum nunc sagittis ac.
+          Vivamus fermentum consequat dolor non tincidunt.
+          Cras id ultrices lacus. Morbi ligula felis, volutpat ac tincidunt vel, congue nec ipsum.
+          Curabitur elementum dictum enim et vehicula.
+          Etiam rhoncus justo hendrerit aliquet blandit.
+          Nam convallis felis et tellus commodo, ac semper massa aliquam.
+        </p>
+        <p>
+          Phasellus scelerisque metus id lectus convallis porta.
+          Donec eget posuere massa. Ut fringilla metus libero, in volutpat massa placerat eget.
+          Nullam luctus vitae erat vel fermentum.
+          Aliquam erat volutpat.
+          Sed accumsan pellentesque placerat.
+          Proin euismod ac urna nec aliquam.
+          Proin non magna non urna lobortis volutpat a id nulla.
+          Suspendisse ornare nisl purus, ultricies semper metus egestas vitae.
+        </p>
+        <h2>Lists</h2>
+        <ol>
+          <li>List Item 1</li>
+          <li>List Item 2</li>
+          <li>List Item 3</li>
+        </ol>
+        <ul>
+          <li>List Item</li>
+          <li>List Item</li>
+          <li>List Item</li>
+        </ul>
+        <h2>Block Quote</h2>
+        <blockquote>
+          Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+        </blockquote>
+      </div>
+      <div class="column quarter">
+        <h2>Right Column</h2>
+        <hr>
+        <p>
+          Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+        </p>
+      </div>
     </div>
-    <div class="column">
-      <h1>Heading H1</h1>
-      <h2>Heading H2</h2>
-      <hr>
-      <h3>Heading H3</h3>
-      <h4><a href="#">Heading H4</a></h4>
-      <h5>Heading H5</h5>
-      <hr>
-      <h6>Heading H6</h6>
-      <p>
-        Lorem ipsum dolor sit amet, <a href="#">consectetur</a> adipiscing elit.
-        Ut eleifend elementum lectus, blandit sollicitudin mi condimentum vel.
-        Quisque sit amet malesuada diam.
-        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-        Phasellus faucibus quis ipsum non lobortis.
-        In suscipit purus at diam cursus condimentum.
-        Nullam posuere nec sem sed malesuada.
-        Nam rutrum facilisis magna a tempus.
-        Mauris auctor, dui at imperdiet varius, tellus nunc rhoncus ante, non convallis metus metus id risus.
-        Donec malesuada augue ligula, vel condimentum nunc sagittis ac.
-        Vivamus fermentum consequat dolor non tincidunt.
-        Cras id ultrices lacus. Morbi ligula felis, volutpat ac tincidunt vel, congue nec ipsum.
-        Curabitur elementum dictum enim et vehicula.
-        Etiam rhoncus justo hendrerit aliquet blandit.
-        Nam convallis felis et tellus commodo, ac semper massa aliquam.
-      </p>
-      <p>
-        Phasellus scelerisque metus id lectus convallis porta.
-        Donec eget posuere massa. Ut fringilla metus libero, in volutpat massa placerat eget.
-        Nullam luctus vitae erat vel fermentum.
-        Aliquam erat volutpat.
-        Sed accumsan pellentesque placerat.
-        Proin euismod ac urna nec aliquam.
-        Proin non magna non urna lobortis volutpat a id nulla.
-        Suspendisse ornare nisl purus, ultricies semper metus egestas vitae.
-      </p>
-      <h2>Lists</h2>
-      <ol>
-        <li>List Item 1</li>
-        <li>List Item 2</li>
-        <li>List Item 3</li>
-      </ol>
-      <ul>
-        <li>List Item</li>
-        <li>List Item</li>
-        <li>List Item</li>
-      </ul>
-      <h2>Block Quote</h2>
-      <blockquote>
-        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-      </blockquote>
+    <div class="row">
+      <div class="column third"><h2>One Third</h2><hr></div>
+      <div class="column third"><h2>One Third</h2><hr></div>
+      <div class="column third"><h2>One Third</h2><hr></div>
     </div>
-    <div class="column">
-      <h2>Right Column</h2>
-      <p>
-        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-      </p>
+    <div class="row">
+      <div class="column fifth"><h2>One Fifth</h2><hr></div>
+      <div class="column fifth"><h2>One Fifth</h2><hr></div>
+      <div class="column fifth"><h2>One Fifth</h2><hr></div>
+      <div class="column fifth"><h2>One Fifth</h2><hr></div>
+      <div class="column fifth"><h2>One Fifth</h2><hr></div>
+    </div>
+    <div class="row">
+      <div class="column sixth"><h2>One Sixth</h2><hr></div>
+      <div class="column sixth"><h2>One Sixth</h2><hr></div>
+      <div class="column sixth"><h2>One Sixth</h2><hr></div>
+      <div class="column sixth"><h2>One Sixth</h2><hr></div>
+      <div class="column sixth"><h2>One Sixth</h2><hr></div>
+      <div class="column sixth"><h2>One Sixth</h2><hr></div>
     </div>
   </div>
 </div>

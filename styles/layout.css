@@ -1,0 +1,51 @@
+/* hzcss - Page Layout Styles - Zac Hester */
+
+#content {
+  width: 940px;
+  position: relative;
+  margin: 0 auto;
+  padding: 0;
+}
+
+  .row:after {
+    content: "\0020";
+    display: block;
+    margin-bottom: 0.5em;
+    clear: both;
+    overflow: hidden;
+    visibility: hidden;
+    height: 0;
+    width: 0;
+  }
+
+.column {
+  float: left;
+  margin: 0 0 0 2%;
+  padding: 0;
+}
+
+.column.half { width: 47%; }
+.column.third { width: 31%; }
+.column.quarter { width: 22%; }
+.column.fifth { width: 17%; }
+.column.sixth { width: 14%; }
+
+@media screen and (min-width: 768px) and (max-width: 959px) {
+  #content { width: 750px; }
+}
+
+@media screen and (max-width: 767px) {
+  #content { width: 300px; }
+  .column { float: none; margin: 0 auto; }
+  .column.half, .column.third, .column.quarter, .column.fifth, .column.sixth {
+    width: auto;
+  }
+}
+
+@media screen and (min-width: 480px) and (max-width: 767px) {
+  #content { width: 420px; }
+}
+
+@media print {
+  #header { display: none; }
+}

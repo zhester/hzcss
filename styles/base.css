@@ -7,7 +7,7 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, pre, ul, ol, dl, form {
   padding: 0;
 }
 li { margin: 0 0 0 2em; }
-blockquote { padding: 0 2em; }
+blockquote { margin: 0.5em 1em; padding: 0 1em; border-left: solid 1px; }
 img { border: none; }
 table { border-collapse: collapse; border-spacing: 0; }
 hr { margin: 0.1em 0; border: none; border-top: 1px solid; }
@@ -31,4 +31,4 @@ h1, h2, h3, h4, h5, h6 { color: #222222; }
 a { color: #0000CC; }
 a:visited { color: #000066; }
 a:hover { color: #0066FF; }
-hr { border-color: #CCCCCC; }
+hr, blockquote { border-color: #CCCCCC; }

@@ -1,0 +1,10 @@
+/* hzcss - Test Only Style Sheet - Zac Hester */
+
+#content, #content>*>*, #content>*>*>*>* {
+  border: solid 1px #CC00CC;
+}
+
+#content>*, #content>*>*>* {
+  border: solid 1px #00CC00;
+}
+
