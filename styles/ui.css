@@ -26,7 +26,6 @@ input[type=text]:focus, textarea:focus {
 /* ZIH - add button class to draw SVG buttons */
 
 .progress {
-  margin: 0;
   padding: 0.1em 0.5em;
   border: solid 1px #666666;
   border-radius: 5px;
@@ -50,16 +49,26 @@ input[type=text]:focus, textarea:focus {
 @keyframes progress_loop {
   to { background-position: 48px 0; }
 }
-.progress.ratio {
+.progress_wrapper {
+  position: relative;
+  border: solid 1px #666666;
+  border-radius: 5px;
+  background-color: #888888;
+}
+.progress_wrapper .progress {
+  position: absolute;
+  z-index: 9;
+  width: 0;
   padding: 0;
+  border: none;
   white-space: nowrap;
+  overflow: hidden;
   transition: width 0.1s ease;
 }
-.progress_wrapper {
-  border: solid 1px #CCCCCC;
-  border-radius: 5px;
-  background-color: #777777;
-}
 .progress_content {
+  position: relative;
+  z-index: 10;
   padding: 0.1em 0.5em;
+  color: #EEEEEE;
+  font-weight: bold;
 }
