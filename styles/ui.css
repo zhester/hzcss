@@ -25,39 +25,41 @@ input[type=text]:focus, textarea:focus {
 /* ZIH - add button class to draw text buttons */
 /* ZIH - add button class to draw SVG buttons */
 
-/*
-ZIH -
-refactor: class = "progress" (status? seriously?)
-add some transitions for color to allow a red -> green effect
-fix inner text flow (currently bound to fill div)
-fix background color to only be behind fill div
-*/
-.status_bar {
+.progress {
+  margin: 0;
+  padding: 0.1em 0.5em;
   border: solid 1px #666666;
   border-radius: 5px;
-  background-color: #CC6600;
-  transition: opacity 0.5s ease;
-}
-.status_bar>div {
-  margin: 0;
-  padding: 0.1em 0.75em;
-  font-weight: bold;
-  color: #FFFFFF;
+  color: #EEEEEE;
+  background-color: #0044BB;
   background-repeat: repeat-x;
   background-size: 48px 48px;
   background-image: linear-gradient(
     -45deg,
-    rgba(255, 255, 255, 0.15) 25%,
+    rgba(255,255,255,0.15) 25%,
     transparent 25%,
     transparent 50%,
-    rgba(255, 255, 255, 0.15) 50%,
-    rgba(255, 255, 255, 0.15) 75%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0.15) 75%,
     transparent 75%,
     transparent
   );
-  transition: width 0.1s ease;
-  animation: status_wait 1s linear infinite;
+  font-weight: bold;
+  animation: progress_loop 1s linear infinite;
 }
-@keyframes status_wait {
+@keyframes progress_loop {
   to { background-position: 48px 0; }
+}
+.progress.ratio {
+  padding: 0;
+  white-space: nowrap;
+  transition: width 0.1s ease;
+}
+.progress_wrapper {
+  border: solid 1px #CCCCCC;
+  border-radius: 5px;
+  background-color: #777777;
+}
+.progress_content {
+  padding: 0.1em 0.5em;
 }
