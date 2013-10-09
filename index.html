@@ -31,6 +31,24 @@
         <p>
           Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
         </p>
+        <div class="status_bar"><div>Status Text</div></div>
+        <div class="status_bar" onmouseover="incstatus(event);"><div style="width:0;">Status Text</div></div>
+        <script>
+          var status_perc = 0;
+          function incstatus( e ) {
+            if( status_perc >= 100 ) {
+              status_perc = 0;
+            }
+            else {
+              status_perc += 20;
+            }
+            var d = e.target.getElementsByTagName( 'div' ).item( 0 );
+            d.style.width = status_perc + '%';
+          }
+        </script>
+        <p>
+          -- Need to get text to flow with the container<br>
+          -- Need to get background color to track with the bar fill
       </div>
       <div class="column half">
         <h1>Heading H1</h1>

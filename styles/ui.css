@@ -24,4 +24,33 @@ input[type=text]:focus, textarea:focus {
 
 /* ZIH - add button class to draw text buttons */
 /* ZIH - add button class to draw SVG buttons */
-/* ZIH - add animated status bar styles */
+
+.status_bar {
+  border: solid 1px #666666;
+  border-radius: 5px;
+  background-color: #CC6600;
+  transition: opacity 0.5s ease;
+}
+.status_bar>div {
+  margin: 0;
+  padding: 0.1em 0.75em;
+  font-weight: bold;
+  color: #FFFFFF;
+  background-repeat: repeat-x;
+  background-size: 48px 48px;
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  transition: width 0.1s ease;
+  animation: status_wait 1s linear infinite;
+}
+@keyframes status_wait {
+  to { background-position: 48px 0; }
+}
