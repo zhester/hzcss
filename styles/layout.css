@@ -1,7 +1,7 @@
 /* hzcss - Page Layout Styles - Zac Hester */
 
 #content {
-  width: 940px;
+  width: 90%;
   position: relative;
   margin: 0 auto;
   padding: 0;
@@ -18,32 +18,87 @@
     width: 0;
   }
 
-.column {
+.column, .row>div {
   float: left;
   margin: 0 0 0 2%;
   padding: 0;
 }
 
-.column.half { width: 47%; }
-.column.third { width: 31%; }
-.column.quarter { width: 22%; }
-.column.fifth { width: 17%; }
-.column.sixth { width: 14%; }
-
-@media screen and (min-width: 768px) and (max-width: 959px) {
-  #content { width: 750px; }
+.column.whole,
+  .row>div.whole,
+  .row.auto>div:first-child:nth-last-child(1) {
+  width: 100%;
+}
+.column.half,
+  .row>div.half,
+  .row.auto>div:first-child:nth-last-child(2),
+  .row.auto>div:first-child:nth-last-child(2) ~ div {
+  width: calc( 50% - 2% );
+}
+.column.third,
+  .row>div.third,
+  .row.auto>div:first-child:nth-last-child(3),
+  .row.auto>div:first-child:nth-last-child(3) ~ div {
+  width: calc( 100% / 3 - 2% );
+}
+.column.quarter,
+  .row>div.quarter,
+  .row.auto>div:first-child:nth-last-child(4),
+  .row.auto>div:first-child:nth-last-child(4) ~ div {
+  width: calc( 25% - 2% );
+}
+.column.fifth,
+  .row>div.fifth,
+  .row.auto>div:first-child:nth-last-child(5),
+  .row.auto>div:first-child:nth-last-child(5) ~ div {
+  width: calc( 20% - 2% );
+}
+.column.sixth,
+  .row>div.sixth,
+  .row.auto>div:first-child:nth-last-child(6),
+  .row.auto>div:first-child:nth-last-child(6) ~ div {
+  width: calc( 100% / 6 - 2% );
 }
 
-@media screen and (max-width: 767px) {
-  #content { width: 300px; }
-  .column { float: none; margin: 0 auto; }
-  .column.half, .column.third, .column.quarter, .column.fifth, .column.sixth {
-    width: auto;
+
+@media screen and (max-width: 800px) {
+  #content { width: 720px; }
+}
+
+@media screen and (max-width: 750px) {
+  #content { width: 420px; }
+  .column,
+  .column.whole,
+  .column.half,
+  .column.third,
+  .column.quarter,
+  .column.fifth,
+  .column.sixth,
+  .row>div,
+  .row>div.whole,
+  .row>div.half,
+  .row>div.third,
+  .row>div.quarter,
+  .row>div.fifth,
+  .row>div.sixth,
+  .row.auto>div,
+  .row.auto>div:first-child:nth-last-child(1),
+  .row.auto>div:first-child:nth-last-child(2),
+  .row.auto>div:first-child:nth-last-child(2) ~ div,
+  .row.auto>div:first-child:nth-last-child(3),
+  .row.auto>div:first-child:nth-last-child(3) ~ div,
+  .row.auto>div:first-child:nth-last-child(4),
+  .row.auto>div:first-child:nth-last-child(4) ~ div,
+  .row.auto>div:first-child:nth-last-child(5),
+  .row.auto>div:first-child:nth-last-child(5) ~ div,
+  .row.auto>div:first-child:nth-last-child(6),
+  .row.auto>div:first-child:nth-last-child(6) ~ div {
+      width: auto; float: none; margin: 0 auto;
   }
 }
 
-@media screen and (min-width: 480px) and (max-width: 767px) {
-  #content { width: 420px; }
+@media screen and (max-width: 440px) {
+  #content { width: 300px; }
 }
 
 @media print {

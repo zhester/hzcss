@@ -24,6 +24,10 @@ input[type=text]:focus, textarea:focus {
   border-top-color: #555577;
 }
 
+table {
+}
+  table tr td:nth-child(even) {
+  }
 
 .button {
   display: inline-block;
