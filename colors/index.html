@@ -104,8 +104,22 @@
      base03, orange, base01, base00, base0, violet, base1, base3 */
 
   </style>
-  <script>
-  </script>
+<script>
+function make_color_selector( element ) {
+    element.onclick = function( event ) {
+    };
+    element.onchange = function( event ) {
+    };
+}
+window.onload = function( event ) {
+    var inputs = document.getElementsByTagName( 'input' );
+    for( var i = 0; i < inputs.length; ++i ) {
+        if( inputs[ i ].getAttribute( 'type' ) == 'color' ) {
+            make_color_selector( inputs[ i ] );
+        }
+    }
+};
+</script>
 </head>
 <body>
 
@@ -118,6 +132,8 @@
     (markup stuff to be selectable according to jEdit's and vim's highlighters)
 </pre>
 
+
+<input type="color">
 
 </body>
 </html>
