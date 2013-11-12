@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Color Designer</title>
+  <style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Consolas, monospace;
+    font-size: 12pt;
+  }
+
+  /* base ANSI color names and "standard" values */
+  .ansi .black     { color: rgb(   0,   0,   0 ); }
+  .ansi .red       { color: rgb( 191,   0,   0 ); }
+  .ansi .green     { color: rgb(   0, 191,   0 ); }
+  .ansi .yellow    { color: rgb( 191, 191,   0 ); }
+  .ansi .blue      { color: rgb(   0,   0, 191 ); }
+  .ansi .magenta   { color: rgb( 191,   0, 191 ); }
+  .ansi .cyan      { color: rgb(   0, 191, 191 ); }
+  .ansi .white     { color: rgb( 191, 191, 191 ); }
+  .ansi .brblack   { color: rgb(  64,  64,  64 ); }
+  .ansi .brred     { color: rgb( 255,  64,  64 ); }
+  .ansi .brgreen   { color: rgb(  64, 255,  64 ); }
+  .ansi .bryellow  { color: rgb( 255, 255,  64 ); }
+  .ansi .brblue    { color: rgb(  64,  64, 255 ); }
+  .ansi .brmagenta { color: rgb( 255,  64, 255 ); }
+  .ansi .brcyan    { color: rgb(  64, 255, 255 ); }
+  .ansi .brwhite   { color: rgb( 255, 255, 255 ); }
+
+  /* ANSI colors that work on light/white backgrounds */
+  .inverted .black     { color: rgb( 255, 255, 255 ); }
+  .inverted .red       { color: rgb( 191,   0,   0 ); }
+  .inverted .green     { color: rgb(   0, 128,   0 ); }
+  .inverted .yellow    { color: rgb( 255, 128,   0 ); }
+  .inverted .blue      { color: rgb(   0,   0, 191 ); }
+  .inverted .magenta   { color: rgb( 191,   0, 191 ); }
+  .inverted .cyan      { color: rgb(   0, 128, 128 ); }
+  .inverted .white     { color: rgb(  64,  64,  64 ); }
+  .inverted .brblack   { color: rgb( 128, 128, 128 ); }
+  .inverted .brred     { color: rgb( 255,  64,  64 ); }
+  .inverted .brgreen   { color: rgb(  32, 191,  32 ); }
+  .inverted .bryellow  { color: rgb( 128,  64,   0 ); }
+  .inverted .brblue    { color: rgb(  64,  64, 255 ); }
+  .inverted .brmagenta { color: rgb( 255,  64, 255 ); }
+  .inverted .brcyan    { color: rgb(   0, 191, 191 ); }
+  .inverted .brwhite   { color: rgb(   0,   0,   0 ); }
+
+  /* xterm ANSI color mapping */
+  .xterm .black     { color: rgb(   0,   0,   0 ); }
+  .xterm .red       { color: rgb( 205,   0,   0 ); }
+  .xterm .green     { color: rgb(   0, 205,   0 ); }
+  .xterm .yellow    { color: rgb( 205, 205,   0 ); }
+  .xterm .blue      { color: rgb(   0,   0, 238 ); }
+  .xterm .magenta   { color: rgb( 205,   0, 205 ); }
+  .xterm .cyan      { color: rgb(   0, 205, 205 ); }
+  .xterm .white     { color: rgb( 229, 229, 229 ); }
+  .xterm .brblack   { color: rgb( 127, 127, 127 ); }
+  .xterm .brred     { color: rgb( 255,   0,   0 ); }
+  .xterm .brgreen   { color: rgb(   0, 255,   0 ); }
+  .xterm .bryellow  { color: rgb( 255, 255,   0 ); }
+  .xterm .brblue    { color: rgb(  92,  92, 255 ); }
+  .xterm .brmagenta { color: rgb( 255,   0, 255 ); }
+  .xterm .brcyan    { color: rgb(   0, 255, 255 ); }
+  .xterm .brwhite   { color: rgb( 255, 255, 255 ); }
+
+  /* Windows terminal ANSI color mapping */
+  .windows .black     { color: rgb(   0,   0,   0 ); }
+  .windows .red       { color: rgb( 128,   0,   0 ); }
+  .windows .green     { color: rgb(   0, 128,   0 ); }
+  .windows .yellow    { color: rgb( 128, 128,   0 ); }
+  .windows .blue      { color: rgb(   0,   0, 128 ); }
+  .windows .magenta   { color: rgb( 128,   0, 128 ); }
+  .windows .cyan      { color: rgb(   0, 128, 128 ); }
+  .windows .white     { color: rgb( 192, 192, 192 ); }
+  .windows .brblack   { color: rgb( 128, 128, 128 ); }
+  .windows .brred     { color: rgb( 255,   0,   0 ); }
+  .windows .brgreen   { color: rgb(   0, 255,   0 ); }
+  .windows .bryellow  { color: rgb( 255, 255,   0 ); }
+  .windows .brblue    { color: rgb(   0,   0, 255 ); }
+  .windows .brmagenta { color: rgb( 255,   0, 255 ); }
+  .windows .brcyan    { color: rgb(   0, 255, 255 ); }
+  .windows .brwhite   { color: rgb( 255, 255, 255 ); }
+
+  /* solarized suggested ANSI mapping */
+  .solarized .black     { color: rgb(   7,  54,  66 ); }
+  .solarized .red       { color: rgb( 220,  50,   1 ); }
+  .solarized .green     { color: rgb( 133, 153,   0 ); }
+  .solarized .yellow    { color: rgb( 181, 137,   0 ); }
+  .solarized .blue      { color: rgb(  38, 139, 210 ); }
+  .solarized .magenta   { color: rgb( 211,  54, 130 ); }
+  .solarized .cyan      { color: rgb(  42, 161, 152 ); }
+  .solarized .white     { color: rgb( 238, 232, 213 ); }
+  .solarized .brblack   { color: rgb(   0,  43,  54 ); }
+  .solarized .brred     { color: rgb( 203,  75,  22 ); }
+  .solarized .brgreen   { color: rgb(  88, 110, 117 ); }
+  .solarized .bryellow  { color: rgb( 101, 123, 131 ); }
+  .solarized .brblue    { color: rgb( 131, 148, 150 ); }
+  .solarized .brmagenta { color: rgb( 108, 113, 196 ); }
+  .solarized .brcyan    { color: rgb( 147, 161, 161 ); }
+  .solarized .brwhite   { color: rgb( 253, 246, 227 ); }
+  /* AKA: base02, red, green, yellow, blue, magenta, cyan, base2,
+     base03, orange, base01, base00, base0, violet, base1, base3 */
+
+  </style>
+  <script>
+  </script>
+</head>
+<body>
+
+<pre>TODO:
+- include modified (desolarized) scheme in current use
+  - need to design a dark-on-light version of this scheme
+- build RGB and HSL color selectors (abstract controls)
+- turn color values into JavaScript literal, and generate CSS rules
+- write a few small-ish code snippets in C, Python, PHP, Javascript
+    (markup stuff to be selectable according to jEdit's and vim's highlighters)
+</pre>
+
+
+</body>
+</html>
