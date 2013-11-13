@@ -265,10 +265,10 @@ function RangeWidget( label, value, min, max, step ) {
 
   this._spec = {
     'type'  : 'range',
-    'min'   : min,
-    'max'   : max,
-    'step'  : step,
-    'value' : value
+    'min'   : min   || 0.0,
+    'max'   : max   || 1.0,
+    'step'  : step  || 0.01,
+    'value' : value || 0.0
   };
 
   this.oninput = null;
@@ -276,7 +276,7 @@ function RangeWidget( label, value, min, max, step ) {
   this.element = document.createElement( 'label' );
 
   var span    = document.createElement( 'span' );
-  this._label = document.createTextNode( label );
+  this._label = document.createTextNode( label || 'X' );
   span.appendChild( this._label );
   this.element.appendChild( span );
 
@@ -323,41 +323,40 @@ function RangeWidget( label, value, min, max, step ) {
 
 }
 RangeWidget.prototype.get_label = function() {
-  return( this._label.nodeValue );
+  return this._label.nodeValue;
 };
 RangeWidget.prototype.get_value = function() {
   return parseFloat( this._range.value );
 };
+RangeWidget.prototype.set_label = function( label ) {
+  this._label.nodeValue = label;
+};
 RangeWidget.prototype.set_value = function( value ) {
   this._range.value = value;
   this._set_display( value );
+};
+RangeWidget.prototype.update = function() {
+  this._set_display( this.get_value() );
 };
 RangeWidget.prototype._set_display = function( value ) {
   this._display.nodeValue = value;
 };
 
 
-function GradientStop( color ) {
-  this.color = color;
-  this.position = arguments[ 1 ] ? arguments[ 1 ] : '';
+function GradientStop( color, position ) {
+  this.color    = color    || 'transparent';
+  this.position = position || null;
 }
 GradientStop.prototype.toString = function() {
-  return this.color + ' ' + this.position;
+  if( this.position != null ) {
+    return this.color + ' ' + this.position;
+  }
+  return this.color.toString();
 };
 
 
 function Gradient() {
-  this.pad = 15;
-  this.stops = arguments;
-  this.begin = [
-    new GradientStop( 'transparent', '0%' ),
-    new GradientStop( 'transparent' )
-  ];
-  this.end = [
-    new GradientStop( 'transparent' ),
-    new GradientStop( 'transparent', '100%' )
-  ];
-  this.setPad( 15 );
+  this.stops = arguments.length > 0 ? [].slice.call( arguments ) : [];
 }
 Gradient.prototype.addStop = function( stop ) {
   this.stops.push( stop );
@@ -367,113 +366,127 @@ Gradient.prototype.setStop = function( index, stop ) {
   this.stops[ index ] = stop;
 };
 Gradient.prototype.toString = function() {
-  var nstops = this.stops.length;
-  this.begin[ 1 ].position = this.pad + 'px';
-  if( nstops >= 2 ) {
-    this.stops[ 0 ].position = this.pad + 'px';
-    this.stops[ nstops - 1 ].position = 'calc( 100% - ' + this.pad + 'px )';
-  }
-  this.end[ 0 ].position = 'calc( 100% - ' + this.pad + 'px )';
-  return this.begin.concat( this.stops, this.end ).join( ',' );
+  return this.stops.join( ',' );
 };
 
 
 function ColorDimensionWidget( label, value ) {
+  RangeWidget.call( this, label, value, 0.0, 1.0, 0.0025 );
   this.gradient = new Gradient();
-  var colors = arguments.length > 2 ? arguments.slice( 2 ) : [];
+  var colors = arguments.length > 2 ? [].slice.call( arguments, 2 ) : [];
   for( var i = 0; i < colors.length; ++i ) {
     this.gradient.addStop( new GradientStop( colors[ i ] ) );
   }
-  this.range = new RangeWidget( label, value, 0.0, 1.0, 0.01 );
-  this.rnode = this.range._range.parentNode;
-  this.rnode.style.backgroundRepeat = 'no-repeat';
-  this.rnode.style.backgroundPosition = '0 0';
-  this.range._set_display = function( value ) {
-    value = Math.round( value * 100.0 ) / 100.0;
-    this._display.nodeValue = value.toFixed( 2 );
+  this._rnode = this._range.parentNode;
+  ui.omap( this._rnode.style, {
+    'backgroundRepeat'   : 'no-repeat',
+    'backgroundPosition' : '15px 0',
+    'backgroundSize'     : 'calc( 100% - 30px ) 100%'
+  } );
+  this._set_display = function( value ) {
+    value = Math.round( value * 10000.0 ) / 10000.0;
+    this._display.nodeValue = value.toFixed( 4 );
+    this._rnode.style.backgroundImage = 'linear-gradient( to right, '
+      + this.gradient + ')';
   };
-  this.oninput = null;
-  var context = this;
-  this.range.oninput = function( event ) {
-    context.update();
-    if( contect.oninput ) {
-      context.oninput( event );
-    }
-  };
-  this.update();
+  this._set_display( value );
 }
-ColorDimensionWidget.prototype.update = function() {
-  this.rnode.style.backgroundImage = 'linear-gradient( to right, '
-    + this.gradient + ')';
+ColorDimensionWidget.prototype = new RangeWidget;
+ColorDimensionWidget.prototype.addGradientStop = function( color ) {
+  this.gradient.addStop( new GradientStop( color ) );
+};
+ColorDimensionWidget.prototype.setGradientStop = function( index, color ) {
+  this.gradient.setStop( index, new GradientStop( color ) );
 };
 
+
+function XYZWidget( x, y, z ) {
+
+  x = x || 0.0;
+  y = y || 0.0;
+  z = z || 0.0;
+
+  this.c = [
+    [ new Color( 0.0, y, z ), new Color( 1.0, y, z ) ],
+    [ new Color( x, 0.0, z ), new Color( x, 1.0, z ) ],
+    [ new Color( x, y, 0.0 ), new Color( x, y, 1.0 ) ]
+  ];
+
+  this.x = new ColorDimensionWidget( 'X', x, this.c[0][0], this.c[0][1] );
+  this.y = new ColorDimensionWidget( 'Y', y, this.c[1][0], this.c[1][1] );
+  this.z = new ColorDimensionWidget( 'Z', z, this.c[2][0], this.c[2][1] );
+
+  this.element = document.createElement( 'div' );
+  var div = document.createElement( 'div' );
+  div.appendChild( this.x.element );
+  this.element.appendChild( div );
+  div = document.createElement( 'div' );
+  div.appendChild( this.y.element );
+  this.element.appendChild( div );
+  div = document.createElement( 'div' );
+  div.appendChild( this.z.element );
+  this.element.appendChild( div );
+
+  this.oninput = null;
+  var context = this;
+  this.x.oninput = function( event ) { context.oninput_x( event ); };
+  this.y.oninput = function( event ) { context.oninput_y( event ); };
+  this.z.oninput = function( event ) { context.oninput_z( event ); };
+}
+XYZWidget.prototype.set_values = function( x, y, z ) {
+  this.x.set_value( x );
+  this.y.set_value( y );
+  this.z.set_value( z );
+};
+XYZWidget.prototype.oninput_x = function( event ) {
+  var value = this.x.get_value();
+  this.c[ 1 ][ 0 ].setRed( value );
+  this.c[ 1 ][ 1 ].setRed( value );
+  this.c[ 2 ][ 0 ].setRed( value );
+  this.c[ 2 ][ 1 ].setRed( value );
+  this.y.update();
+  this.z.update();
+  event.range = this.x;
+  event.value = value;
+  this.oninput( event );
+};
+XYZWidget.prototype.oninput_y = function( event ) {
+  var value = this.y.get_value();
+  this.c[ 0 ][ 0 ].setGreen( value );
+  this.c[ 0 ][ 1 ].setGreen( value );
+  this.c[ 2 ][ 0 ].setGreen( value );
+  this.c[ 2 ][ 1 ].setGreen( value );
+  this.x.update();
+  this.z.update();
+  event.range = this.y;
+  event.value = value;
+  this.oninput( event );
+};
+XYZWidget.prototype.oninput_z = function( event ) {
+  var value = this.z.get_value();
+  this.c[ 0 ][ 0 ].setBlue( value );
+  this.c[ 0 ][ 1 ].setBlue( value );
+  this.c[ 1 ][ 0 ].setBlue( value );
+  this.c[ 1 ][ 1 ].setBlue( value );
+  this.x.update();
+  this.y.update();
+  event.range = this.z;
+  event.value = value;
+  this.oninput( event );
+};
 
 function RGBWidget( r, g, b ) {
-  this.element = document.createElement( 'div' );
-  this.r = new RangeWidget( 'R', r, 0.0, 1.0, 0.01 );
-  this.g = new RangeWidget( 'G', g, 0.0, 1.0, 0.01 );
-  this.b = new RangeWidget( 'B', b, 0.0, 1.0, 0.01 );
-  var div = document.createElement( 'div' );
-  div.appendChild( this.r.element );
-  this.element.appendChild( div );
-  div = document.createElement( 'div' );
-  div.appendChild( this.g.element );
-  this.element.appendChild( div );
-  div = document.createElement( 'div' );
-  div.appendChild( this.b.element );
-  this.element.appendChild( div );
-  this.oninput = null;
-  var context = this;
-  this.r.oninput = ( function( event ) {
-    if( context.oninput != null ) {
-      context.update(
-        context.r.get_value(),
-        context.g.get_value(),
-        context.b.get_value()
-      );
-      event.range = context.r;
-      context.oninput( event );
-    }
-  } );
-  this.g.oninput = ( function( event ) {
-    if( context.oninput != null ) {
-      context.update(
-        context.r.get_value(),
-        context.g.get_value(),
-        context.b.get_value()
-      );
-      event.range = context.g;
-      context.oninput( event );
-    }
-  } );
-  this.b.oninput = ( function( event ) {
-    if( context.oninput != null ) {
-      context.update(
-        context.r.get_value(),
-        context.g.get_value(),
-        context.b.get_value()
-      );
-      event.range = context.b;
-      context.oninput( event );
-    }
-  } );
-  this.update( r, g, b );
+  XYZWidget.call( this, r, g, b );
+  this.x.set_label( 'R' );
+  this.y.set_label( 'G' );
+  this.z.set_label( 'B' );
 }
-RGBWidget.prototype.update = function( r, g, b ) {
-  this.r.set_value( r );
-  this.g.set_value( g );
-  this.b.set_value( b );
-  this.r.start_color.setRGB( 0.0, g, b );
-  this.r.stop_color.setRGB( 1.0, g, b );
-  this.g.start_color.setRGB( r, 0.0, b );
-  this.g.stop_color.setRGB( r, 1.0, b );
-  this.b.start_color.setRGB( r, g, 0.0 );
-  this.b.stop_color.setRGB( r, g, 1.0 );
-};
+RGBWidget.prototype = new XYZWidget;
+
 
 function HSLWidget( h, s, l ) {
   this.element = document.createElement( 'div' );
-  this.h = new RangeWidget( 'H', h, 0.0, 1.0, 0.01 );
+  this.h = new RangeWidget( 'H', h, 0.0, 0.99, 0.01 );
   this.s = new RangeWidget( 'S', s, 0.0, 1.0, 0.01 );
   this.l = new RangeWidget( 'L', l, 0.0, 1.0, 0.01 );
   var div = document.createElement( 'div' );
@@ -526,21 +539,19 @@ HSLWidget.prototype.update = function( h, s, l ) {
   this.h.set_value( h );
   this.s.set_value( s );
   this.l.set_value( l );
-  this.h.start_color.setHSL( 0.0, s, l );
-  this.h.stop_color.setHSL( 1.0, s, l );
-  this.s.start_color.setHSL( h, 0.0, l );
-  this.s.stop_color.setHSL( h, 1.0, l );
-  this.l.start_color.setHSL( h, s, 0.0 );
-  this.l.stop_color.setHSL( h, s, 1.0 );
 };
 
 function ColorWidget( r, g, b ) {
-  this.element = document.createElement( 'div' );
+
   this.color = new Color( r, g, b );
+
   var hex = this.color.getHex();
   var hsl = this.color.getHSL();
-  this.rgb = new RGBWidget( r, g, b );
+
+  this.rgb = new XYZWidget( r, g, b );
   this.hsl = new HSLWidget( hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
+
+  this.element = document.createElement( 'div' );
   this.display = document.createElement( 'div' );
   this.display.style.minHeight = '1em';
   this.display.style.backgroundColor = hex;
@@ -550,18 +561,19 @@ function ColorWidget( r, g, b ) {
   this.element.appendChild( this.hex );
   this.element.appendChild( this.rgb.element );
   this.element.appendChild( this.hsl.element );
+
   var context = this;
   this.rgb.oninput = ( function( event ) {
     var range_label = event.range.get_label();
     switch( range_label ) {
       case 'R':
-        context.color.setRed( parseFloat( event.range.get_value() ) );
+        context.color.setRed( event.range.get_value() );
         break;
       case 'G':
-        context.color.setGreen( parseFloat( event.range.get_value() ) );
+        context.color.setGreen( event.range.get_value() );
         break;
       case 'B':
-        context.color.setBlue( parseFloat( event.range.get_value() ) );
+        context.color.setBlue( event.range.get_value() );
         break;
     }
     var hex = context.color.getHex();
@@ -587,7 +599,7 @@ function ColorWidget( r, g, b ) {
     var rgb = context.color.getRGB();
     context.display.style.backgroundColor = hex;
     context.hex.firstChild.nodeValue = hex;
-    context.rgb.update( rgb[ 0 ], rgb[ 1 ], rgb[ 2 ] );
+    context.rgb.set_values( rgb[ 0 ], rgb[ 1 ], rgb[ 2 ] );
   } );
 }
 ColorWidget.prototype.get_value = function() {
@@ -599,7 +611,7 @@ ColorWidget.prototype.set_value = function( r, g, b ) {
   var hsl = this.color.getHSL();
   this.display.style.backgroundColor = hex;
   this.hex.firstChild.nodeValue = hex;
-  this.rgb.update( r, g, b );
+  this.rgb.set_values( r, g, b );
   this.hsl.update( hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
 };
 
