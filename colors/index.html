@@ -116,9 +116,9 @@ function select_text( element ) {
 
 
 function Color( r, g, b ) {
-  this._r = r;
-  this._g = g;
-  this._b = b;
+  this._r = r || 0.0;
+  this._g = g || 0.0;
+  this._b = b || 0.0;
   this._h = 0.0;
   this._s = 0.0;
   this._l = 0.0;
@@ -162,7 +162,7 @@ Color.prototype.getHSL = function() {
     s = chroma / ( 1 - Math.abs( ( 2 * l ) - 1 ) );
   }
   h = h_prime * 60.0;
-  return [ ( h / 360.0 ), s, l ];
+  return [ ( h / 359.999999 ), s, l ];
 };
 Color.prototype.getHSL2 = function() {
   var alpha, beta, chroma, l, max, min, h, s;
@@ -174,12 +174,12 @@ Color.prototype.getHSL2 = function() {
   min = Math.min( this._r, this._g, this._b );
   l = ( max + min ) / 2.0;
   s = chroma / ( 1 - Math.abs( ( 2 * l ) - 1 ) );
-  return [ ( h / 360.0 ), s, l ];
+  return [ ( h / 359.999999 ), s, l ];
 };
 Color.prototype.getRGB = function() {
   var b, chroma, g, h_prime, m, r, x;
   chroma = ( 1 - Math.abs( ( 2 * this._l ) - 1 ) ) * this._s;
-  h_prime = this._h * 360.0 / 60.0;
+  h_prime = this._h * 359.999999 / 60.0;
   x = chroma * ( 1 - Math.abs( ( h_prime % 2 ) - 1 ) );
   m = this._l - ( chroma / 2.0 );
   if( m < 0.0 ) { m = 0.0; }
@@ -212,6 +212,13 @@ Color.prototype.setBlue = function( b ) {
 };
 Color.prototype.setGreen = function( g ) {
   this._g = g;
+  this._update_hsl();
+};
+Color.prototype.setHex = function( hex ) {
+  hex = hex.replace( /^\s*#|\s+$/, '' );
+  this._r = parseInt( hex.substr( 0, 2 ), 16 ) / 255.0;
+  this._g = parseInt( hex.substr( 2, 2 ), 16 ) / 255.0;
+  this._b = parseInt( hex.substr( 4, 2 ), 16 ) / 255.0;
   this._update_hsl();
 };
 Color.prototype.setHue = function( h ) {
@@ -271,7 +278,7 @@ function RangeWidget( label, value, min, max, step ) {
     'value' : value || 0.0
   };
 
-  this.oninput = null;
+  this.oninput = function( event ) {};
 
   this.element = document.createElement( 'label' );
 
@@ -287,7 +294,7 @@ function RangeWidget( label, value, min, max, step ) {
   var context = this;
   this._range.oninput = ( function( event ) {
     context._set_display( event.target.value );
-    if( context.oninput != null ) { context.oninput( event ); }
+    context.oninput( event );
   } );
   span.appendChild( this._range );
   this.element.appendChild( span );
@@ -296,20 +303,20 @@ function RangeWidget( label, value, min, max, step ) {
   var button = document.createElement( 'input' );
   ui.omap( button, { 'type' : 'button', 'value' : '<' } );
   button.onclick = ( function( event ) {
-    var v = context.get_value();
+    var v = context.getValue();
     if( v > context._spec.min ) {
-      context.set_value( v - context._spec.step );
-      if( context.oninput != null ) { context.oninput( event ); }
+      context.setValue( v - context._spec.step );
+      context.oninput( event );
     }
   } );
   span.appendChild( button );
   button = document.createElement( 'input' );
   ui.omap( button, { 'type' : 'button', 'value' : '>' } );
   button.onclick = ( function( event ) {
-    var v = context.get_value();
+    var v = context.getValue();
     if( v < context._spec.max ) {
-      context.set_value( v + context._spec.step );
-      if( context.oninput != null ) { context.oninput( event ); }
+      context.setValue( v + context._spec.step );
+      context.oninput( event );
     }
   } );
   span.appendChild( button );
@@ -322,21 +329,21 @@ function RangeWidget( label, value, min, max, step ) {
   this.element.appendChild( span );
 
 }
-RangeWidget.prototype.get_label = function() {
+RangeWidget.prototype.getLabel = function() {
   return this._label.nodeValue;
 };
-RangeWidget.prototype.get_value = function() {
+RangeWidget.prototype.getValue = function() {
   return parseFloat( this._range.value );
 };
-RangeWidget.prototype.set_label = function( label ) {
+RangeWidget.prototype.setLabel = function( label ) {
   this._label.nodeValue = label;
 };
-RangeWidget.prototype.set_value = function( value ) {
+RangeWidget.prototype.setValue = function( value ) {
   this._range.value = value;
   this._set_display( value );
 };
 RangeWidget.prototype.update = function() {
-  this._set_display( this.get_value() );
+  this._set_display( this.getValue() );
 };
 RangeWidget.prototype._set_display = function( value ) {
   this._display.nodeValue = value;
@@ -366,6 +373,12 @@ Gradient.prototype.setStop = function( index, stop ) {
   this.stops[ index ] = stop;
 };
 Gradient.prototype.toString = function() {
+  if( this.stops.length == 0 ) {
+    return 'black,white';
+  }
+  else if( this.stops.length == 1 ) {
+    return 'black,' + this.stops[ 0 ];
+  }
   return this.stops.join( ',' );
 };
 
@@ -373,10 +386,8 @@ Gradient.prototype.toString = function() {
 function ColorDimensionWidget( label, value ) {
   RangeWidget.call( this, label, value, 0.0, 1.0, 0.0025 );
   this.gradient = new Gradient();
-  this._has_gradient = false;
   var colors = arguments.length > 2 ? [].slice.call( arguments, 2 ) : [];
   for( var i = 0; i < colors.length; ++i ) {
-  	this._has_gradient = true;
     this.gradient.addStop( new GradientStop( colors[ i ] ) );
   }
   this._rnode = this._range.parentNode;
@@ -388,31 +399,24 @@ function ColorDimensionWidget( label, value ) {
   this._set_display = function( value ) {
     value = Math.round( value * 10000.0 ) / 10000.0;
     this._display.nodeValue = value.toFixed( 4 );
-    if( this._has_gradient == true ) {
-      this._rnode.style.backgroundImage = 'linear-gradient( to right, '
-        + this.gradient + ')';
-    }
+    this._rnode.style.backgroundImage = 'linear-gradient( to right, '
+      + this.gradient + ')';
   };
   this._set_display( value );
 }
 ColorDimensionWidget.prototype = new RangeWidget;
 ColorDimensionWidget.prototype.addGradientStop = function( color ) {
-  this._has_gradient = true;
   this.gradient.addStop( new GradientStop( color ) );
 };
 ColorDimensionWidget.prototype.setGradientStop = function( index, color ) {
-  this._has_gradient = true;
   this.gradient.setStop( index, new GradientStop( color ) );
 };
 
 
 function XYZWidget( x, y, z ) {
-  x = x || 0.0;
-  y = y || 0.0;
-  z = z || 0.0;
-  this.x = new ColorDimensionWidget( 'X', x );
-  this.y = new ColorDimensionWidget( 'Y', y );
-  this.z = new ColorDimensionWidget( 'Z', z );
+  this.x = x || new RangeWidget( 'X' );
+  this.y = y || new RangeWidget( 'Y' );
+  this.z = z || new RangeWidget( 'Z' );
   this.element = document.createElement( 'div' );
   var div = document.createElement( 'div' );
   div.appendChild( this.x.element );
@@ -423,153 +427,186 @@ function XYZWidget( x, y, z ) {
   div = document.createElement( 'div' );
   div.appendChild( this.z.element );
   this.element.appendChild( div );
-  this.oninput = null;
+  this.oninput = function( event ) {};
   var context = this;
-  this.x.oninput = function( event ) { context.oninput_x( event ); };
-  this.y.oninput = function( event ) { context.oninput_y( event ); };
-  this.z.oninput = function( event ) { context.oninput_z( event ); };
+  this.x.oninput = function( event ) {
+    event.range = context.x;
+    context.oninput( event );
+  };
+  this.y.oninput = function( event ) {
+    event.range = context.y;
+    context.oninput( event );
+  };
+  this.z.oninput = function( event ) {
+    event.range = context.z;
+    context.oninput( event );
+  };
 }
-XYZWidget.prototype.set_values = function( x, y, z ) {
-  this.x.set_value( x );
-  this.y.set_value( y );
-  this.z.set_value( z );
+XYZWidget.prototype.getValues = function() {
+  return [ this.x.getValue(), this.y.getValue(), this.z.getValue() ];
 };
-XYZWidget.prototype.oninput_x = function( event ) {
-  event.range = this.x;
-  this.oninput( event );
-};
-XYZWidget.prototype.oninput_y = function( event ) {
-  event.range = this.y;
-  this.oninput( event );
-};
-XYZWidget.prototype.oninput_z = function( event ) {
-  event.range = this.z;
-  this.oninput( event );
+XYZWidget.prototype.setValues = function( x, y, z ) {
+  this.x.setValue( x );
+  this.y.setValue( y );
+  this.z.setValue( z );
 };
 
-function RGBWidget( r, g, b ) {
-  XYZWidget.call( this, r, g, b );
-  this.x.set_label( 'R' );
-  this.y.set_label( 'G' );
-  this.z.set_label( 'B' );
-  this.c = [
-    [ new Color( 0.0, g, b ), new Color( 1.0, g, b ) ],
-    [ new Color( r, 0.0, b ), new Color( r, 1.0, b ) ],
-    [ new Color( r, g, 0.0 ), new Color( r, g, 1.0 ) ]
+
+function RGBWidget( color ) {
+  this.color = color || new Color();
+  var v = this.color.getRGB();
+  var w = [
+    new ColorDimensionWidget( 'R', v[ 0 ] ),
+    new ColorDimensionWidget( 'G', v[ 1 ] ),
+    new ColorDimensionWidget( 'B', v[ 2 ] )
   ];
-  this.x.addGradientStop( this.c[ 0 ][ 0 ] );
-  this.x.addGradientStop( this.c[ 0 ][ 1 ] );
-  this.y.addGradientStop( this.c[ 1 ][ 0 ] );
-  this.y.addGradientStop( this.c[ 1 ][ 1 ] );
-  this.z.addGradientStop( this.c[ 2 ][ 0 ] );
-  this.z.addGradientStop( this.c[ 2 ][ 1 ] );
-  this.x.update();
-  this.y.update();
-  this.z.update();
+  XYZWidget.apply( this, w );
+  this.u = [ this.x, this.y, this.z ];
+  this._setup( [ 2, 2, 2 ] );
+  var context = this;
+  w[ 0 ].oninput = function( event ) {
+    context.color.setRed( context.x.getValue() );
+    context._update();
+    event.range = context.x;
+    context.oninput( event );
+  };
+  w[ 1 ].oninput = function( event ) {
+    context.color.setGreen( context.y.getValue() );
+    context._update();
+    event.range = context.y;
+    context.oninput( event );
+  };
+  w[ 2 ].oninput = function( event ) {
+    context.color.setBlue( context.z.getValue() );
+    context._update();
+    event.range = context.z;
+    context.oninput( event );
+  };
 }
 RGBWidget.prototype = new XYZWidget;
-RGBWidget.prototype.oninput_x = function( event ) {
-  var value = this.x.get_value();
-  this.c[ 1 ][ 0 ].setRed( value );
-  this.c[ 1 ][ 1 ].setRed( value );
-  this.c[ 2 ][ 0 ].setRed( value );
-  this.c[ 2 ][ 1 ].setRed( value );
-  this.y.update();
-  this.z.update();
-  event.range = this.x;
-  this.oninput( event );
+RGBWidget.prototype.update = function() {
+  this._update();
+  var v = this.color.getRGB();
+  this.x.setValue( v[ 0 ] );
+  this.y.setValue( v[ 1 ] );
+  this.z.setValue( v[ 2 ] );
 };
-RGBWidget.prototype.oninput_y = function( event ) {
-  var value = this.y.get_value();
-  this.c[ 0 ][ 0 ].setGreen( value );
-  this.c[ 0 ][ 1 ].setGreen( value );
-  this.c[ 2 ][ 0 ].setGreen( value );
-  this.c[ 2 ][ 1 ].setGreen( value );
-  this.x.update();
-  this.z.update();
-  event.range = this.y;
-  this.oninput( event );
+RGBWidget.prototype._setup = function( stop_counts ) {
+  var values;
+  this.c = [];
+  for( var i = 0; i < stop_counts.length; ++i ) {
+    values = this.color.getHSL();
+    this.c[ i ] = [];
+    for( var j = 0; j < stop_counts[ i ]; ++j ) {
+      values[ i ] = j / ( stop_counts[ i ] - 1 );
+      this.c[ i ][ j ] = new Color();
+      Color.prototype.setRGB.apply( this.c[ i ][ j ], values );
+      this.u[ i ].addGradientStop( this.c[ i ][ j ] );
+    }
+    this.u[ i ].update();
+  }
 };
-RGBWidget.prototype.oninput_z = function( event ) {
-  var value = this.z.get_value();
-  this.c[ 0 ][ 0 ].setBlue( value );
-  this.c[ 0 ][ 1 ].setBlue( value );
-  this.c[ 1 ][ 0 ].setBlue( value );
-  this.c[ 1 ][ 1 ].setBlue( value );
-  this.x.update();
-  this.y.update();
-  event.range = this.z;
-  this.oninput( event );
+RGBWidget.prototype._update = function() {
+  var num_colors, values;
+  for( var i = 0; i < this.c.length; ++i ) {
+    num_colors = this.c[ i ].length;
+    values = this.color.getRGB();
+    for( var j = 0; j < num_colors; ++j ) {
+      values[ i ] = j / ( num_colors - 1 );
+      Color.prototype.setRGB.apply( this.c[ i ][ j ], values );
+    }
+    this.u[ i ].update();
+  }
 };
 
 
-function HSLWidget( h, s, l ) {
-  this.element = document.createElement( 'div' );
-  this.h = new RangeWidget( 'H', h, 0.0, 0.9975, 0.0025 );
-  this.s = new RangeWidget( 'S', s, 0.0, 1.0, 0.0025 );
-  this.l = new RangeWidget( 'L', l, 0.0, 1.0, 0.0025 );
-  var div = document.createElement( 'div' );
-  div.appendChild( this.h.element );
-  this.element.appendChild( div );
-  div = document.createElement( 'div' );
-  div.appendChild( this.s.element );
-  this.element.appendChild( div );
-  div = document.createElement( 'div' );
-  div.appendChild( this.l.element );
-  this.element.appendChild( div );
-  this.oninput = null;
+function HSLWidget( color ) {
+  this.color = color || new Color();
+  var v = this.color.getHSL();
+  var w = [
+    new ColorDimensionWidget( 'H', v[ 0 ] ),
+    new ColorDimensionWidget( 'S', v[ 1 ] ),
+    new ColorDimensionWidget( 'L', v[ 2 ] )
+  ];
+  XYZWidget.apply( this, w );
+  this.u = [ this.x, this.y, this.z ];
+  this._setup( [ 7, 3, 3 ] );
   var context = this;
-  this.h.oninput = ( function( event ) {
-    if( context.oninput != null ) {
-      context.update(
-        context.h.get_value(),
-        context.s.get_value(),
-        context.l.get_value()
-      );
-      event.range = context.h;
-      context.oninput( event );
-    }
-  } );
-  this.s.oninput = ( function( event ) {
-    if( context.oninput != null ) {
-      context.update(
-        context.h.get_value(),
-        context.s.get_value(),
-        context.l.get_value()
-      );
-      event.range = context.s;
-      context.oninput( event );
-    }
-  } );
-  this.l.oninput = ( function( event ) {
-    if( context.oninput != null ) {
-      context.update(
-        context.h.get_value(),
-        context.s.get_value(),
-        context.l.get_value()
-      );
-      event.range = context.l;
-      context.oninput( event );
-    }
-  } );
-  this.update( h, s, l );
+  w[ 0 ].oninput = function( event ) {
+    context.color.setHue( context.x.getValue() );
+    context._update();
+    event.range = context.x;
+    context.oninput( event );
+  };
+  w[ 1 ].oninput = function( event ) {
+    context.color.setSaturation( context.y.getValue() );
+    context._update();
+    event.range = context.y;
+    context.oninput( event );
+  };
+  w[ 2 ].oninput = function( event ) {
+    context.color.setLightness( context.z.getValue() );
+    context._update();
+    event.range = context.z;
+    context.oninput( event );
+  };
 }
-HSLWidget.prototype.update = function( h, s, l ) {
-  this.h.set_value( h );
-  this.s.set_value( s );
-  this.l.set_value( l );
+HSLWidget.prototype = new XYZWidget;
+HSLWidget.prototype.update = function() {
+  this._update();
+  var v = this.color.getHSL();
+  this.x.setValue( v[ 0 ] );
+  this.y.setValue( v[ 1 ] );
+  this.z.setValue( v[ 2 ] );
+};
+HSLWidget.prototype._setup = function( stop_counts ) {
+  var values;
+  this.c = [];
+  for( var i = 0; i < stop_counts.length; ++i ) {
+    values = this.color.getHSL();
+    this.c[ i ] = [];
+    for( var j = 0; j < stop_counts[ i ]; ++j ) {
+      values[ i ] = j / ( stop_counts[ i ] - 1 );
+      this.c[ i ][ j ] = new Color();
+      Color.prototype.setHSL.apply( this.c[ i ][ j ], values );
+      this.u[ i ].addGradientStop( this.c[ i ][ j ] );
+    }
+    this.u[ i ].update();
+  }
+};
+HSLWidget.prototype._update = function() {
+  var num_stops, values;
+  for( var i = 0; i < this.c.length; ++i ) {
+    num_colors = this.c[ i ].length;
+    values = this.color.getHSL();
+    for( var j = 0; j < num_colors; ++j ) {
+      values[ i ] = j / ( num_colors - 1 );
+      Color.prototype.setHSL.apply( this.c[ i ][ j ], values );
+    }
+    this.u[ i ].update();
+  }
 };
 
-function ColorWidget( r, g, b ) {
 
-  this.color = new Color( r, g, b );
-
+function ColorWidget( color ) {
+  if( typeof color == 'undefined' ) {
+    this.color = new Color();
+  }
+  else if( typeof color == 'string' ) {
+    this.color = new Color();
+    this.color.setHex( color );
+  }
+  else if( typeof color == 'number' ) {
+    this.color = new (
+      Color.bind.apply( Color, [].slice.call( arguments ) )
+    )();
+  }
+  else {
+    this.color = color;
+  }
+  this.rgb = new RGBWidget( this.color );
+  this.hsl = new HSLWidget( this.color );
   var hex = this.color.getHex();
-  var hsl = this.color.getHSL();
-
-  this.rgb = new RGBWidget( r, g, b );
-  this.hsl = new HSLWidget( hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
-
   this.element = document.createElement( 'div' );
   this.display = document.createElement( 'div' );
   this.display.style.minHeight = '1em';
@@ -580,64 +617,70 @@ function ColorWidget( r, g, b ) {
   this.element.appendChild( this.hex );
   this.element.appendChild( this.rgb.element );
   this.element.appendChild( this.hsl.element );
-
   var context = this;
   this.rgb.oninput = ( function( event ) {
-    var range_label = event.range.get_label();
-    switch( range_label ) {
-      case 'R':
-        context.color.setRed( event.range.get_value() );
-        break;
-      case 'G':
-        context.color.setGreen( event.range.get_value() );
-        break;
-      case 'B':
-        context.color.setBlue( event.range.get_value() );
-        break;
-    }
     var hex = context.color.getHex();
-    var hsl = context.color.getHSL();
     context.display.style.backgroundColor = hex;
     context.hex.firstChild.nodeValue = hex;
-    context.hsl.update( hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
+    context.hsl.update();
   } );
   this.hsl.oninput = ( function( event ) {
-    var range_label = event.range.get_label();
-    switch( range_label ) {
-      case 'H':
-        context.color.setHue( parseFloat( event.range.get_value() ) );
-        break;
-      case 'S':
-        context.color.setSaturation( parseFloat( event.range.get_value() ) );
-        break;
-      case 'L':
-        context.color.setLightness( parseFloat( event.range.get_value() ) );
-        break;
-    }
     var hex = context.color.getHex();
-    var rgb = context.color.getRGB();
     context.display.style.backgroundColor = hex;
     context.hex.firstChild.nodeValue = hex;
-    context.rgb.set_values( rgb[ 0 ], rgb[ 1 ], rgb[ 2 ] );
+    context.rgb.update();
   } );
 }
-ColorWidget.prototype.get_value = function() {
+ColorWidget.prototype.getValue = function() {
   return this.color.getRGB();
 };
-ColorWidget.prototype.set_value = function( r, g, b ) {
+ColorWidget.prototype.setValue = function( r, g, b ) {
   this.color.setRGB( r, g, b );
   var hex = this.color.getHex();
-  var hsl = this.color.getHSL();
   this.display.style.backgroundColor = hex;
   this.hex.firstChild.nodeValue = hex;
-  this.rgb.set_values( r, g, b );
-  this.hsl.update( hsl[ 0 ], hsl[ 1 ], hsl[ 2 ] );
+  this.hsl.update();
+  this.rgb.update();
 };
 
+
+
+ui.widget_types = {
+  'color' : [ 'ColorWidget', [ 'parseFloat', 'parseFloat', 'parseFloat' ] ]
+};
+
+ui.makeWidgets = function( element ) {
+  element = element || document.getElementsByTagName( 'body' ).item( 0 );
+  var inputs = element.getElementsByTagName( 'input' );
+  var num_inputs = inputs.length;
+  var args, cls, pnode, type, widget, wspec;
+  for( var i = 0; i < num_inputs; ++i ) {
+    if( inputs[ i ].hasAttribute( 'data-type' ) ) {
+      type = inputs[ i ].getAttribute( 'data-type' );
+      if( type in ui.widget_types ) {
+        wspec = ui.widget_types[ type ];
+        cls = window[ wspec[ 0 ] ];
+        args = [];
+        if( inputs[ i ].hasAttribute( 'data-args' ) ) {
+          args = inputs[ i ].getAttribute( 'data-args' ).split( ',' );
+          for( var j = 0; j < args.length; ++j ) {
+            args[ j ] = window[ wspec[ 1 ][ j ] ]( args[ j ] );
+          }
+          widget = new ( cls.bind.apply( cls, args ) )();
+        }
+        else {
+          widget = new cls( inputs[ i ].value );
+        }
+        pnode = inputs[ i ].parentNode;
+        pnode.replaceChild( widget.element, inputs[ i ] );
+      }
+    }
+  }
+};
 
 window.onload = function( event ) {
   var demo = document.getElementById( 'demo' );
-  var color = new ColorWidget( 0.0, 0.0, 0.0 );
+  var color = new ColorWidget( new Color( 0.0, 0.0, 0.0 ) );
   demo.appendChild( color.element );
 };
 
@@ -649,7 +692,6 @@ window.onload = function( event ) {
 
 <pre>TODO:
 - build RGB and HSL color selectors (abstract controls)
-    - the hue range needs a 6-part gradient
   - need to be able to paste in a hex color from an outside source
   - need conversions to/from decimal triplets
   - need to set up CSS to clean up the ColorWidget
@@ -660,6 +702,9 @@ window.onload = function( event ) {
 - set up a scheme designer that picks tones (8) and accents (8)
 - write a few small-ish code snippets in C, Python, PHP, Javascript
     (markup stuff to be selectable according to jEdit's and vim's highlighters)
+- test fallback form input for the color widget (without stomping on the
+    new--but very limited--HTML5 color widget):
+  &lt;input type="text" value="#6699CC" data-type="color"&gt;
 </pre>
 
 </body>
