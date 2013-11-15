@@ -103,37 +103,10 @@
   /* AKA: base02, red, green, yellow, blue, magenta, cyan, base2,
      base03, orange, base01, base00, base0, violet, base1, base3 */
 
-  /* -------------------------------------------------------------- */
-
-  .colordimensionwidget {
-  }
-    .colordimensionwidget span:nth-child(3) {
-      display: inline-block;
-      margin: 0 5px 0 0;
-    }
-    .colordimensionwidget span:nth-child(3) input {
-      border: solid 1px #CCCCCC;
-      border-radius: 4px 0 0 4px;
-      background-color: #F0F0F0;
-      font-weight: bold;
-      font-size: 90%;
-    }
-    .colordimensionwidget span:nth-child(3) input:last-child {
-      border-radius: 0 4px 4px 0;
-    }
-    .colordimensionwidget span:nth-child(4) {
-      display: none;
-    }
-  .colorwidget {
-    display: inline-block;
-    margin: 0;
-    padding: 0.25em 0.5em;
-    border: solid 1px #CCCCCC;
-    border-radius: 4px;
-  }
-
   </style>
+<script src="http://hzian.com/projects/source/hzjs/lib/ui.js"></script>
 <script src="http://hzian.com/projects/source/hzjs/lib/ui_color.js"></script>
+<script src="schemer.js"></script>
 <script>
 function select_text( element ) {
   var range, selection;
@@ -146,8 +119,10 @@ function select_text( element ) {
 
 window.onload = function( event ) {
   var demo = document.getElementById( 'demo' );
-  var color = new ColorWidget( new Color( 0.0, 0.0, 0.0 ) );
-  demo.appendChild( color.element );
+  //var color = new ColorWidget( new Color( 0.0, 0.0, 0.0 ) );
+  //demo.appendChild( color.element );
+  var schemer = new Schemer();
+  demo.appendChild( schemer.element );
 };
 
 </script>
@@ -157,8 +132,9 @@ window.onload = function( event ) {
 <div id="demo" style="margin:2em;text-align:center;"></div>
 
 <pre>TODO:
-- build RGB and HSL color selectors (abstract controls)
-  - need to be able to paste in a hex color from an outside source
+- color wheel (and hue gradient) seems heavy in green... need to check that
+- features to add to color widget
+  - be able to paste in a hex color from an outside source
   - need conversions to/from decimal triplets
 - turn color values into JavaScript literal, and generate CSS rules
 - include modified (desolarized) scheme in current use
