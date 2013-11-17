@@ -78,6 +78,20 @@ function Schemer() {
             'border' : 'solid 1px #CCCCCC',
             'border-radius' : '4px'
         },
+        '.colorwidget>div:nth-child(2), .colorwidget>div:nth-child(3)' : {
+            'display' : 'inline-block'
+        },
+        '.colorwidget input[type=text]' : {
+            'display' : 'inline-block',
+            'width' : '8em',
+            'margin' : '4px',
+            'border' : 'solid 1px #CCCCCC',
+            'border-radius' : '2px',
+            'text-align' : 'center'
+        },
+        '.colorwidget div:nth-child(3) input[type=text]' : {
+            'width' : '4em'
+        },
         '.colorchip' : {
             'position' : 'absolute',
             'top' : 'calc( 50% - ' + ( c_dim / 2 ) + 'px )',
