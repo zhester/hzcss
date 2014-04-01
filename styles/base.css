@@ -13,7 +13,9 @@ table { border-collapse: collapse; border-spacing: 0; }
 hr { margin: 0.1em 0; border: none; border-top: 1px solid; }
 
 /* typography */
-body { font: 12pt/130% Arial, Helvetica, sans-serif; }
+body {
+  font: 12pt/130% 'Source Sans Pro', Arial, Helvetica, sans-serif;
+}
 h1, h2, h3, h4, h5, h6 {
   font-family: Georgia, "Times New Roman", sans-serif;
   font-weight: normal;
