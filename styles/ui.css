@@ -1,6 +1,16 @@
 /* hzcss - User Interface Style Sheet - Zac Hester */
 
-@import url(generated.php?id=ui);
+/*
+Note on icons: Icons are dynamically generated SVG images and sprite sets.
+The generators are currently sourced from my personal web site.  If you wish
+to host the generators yourself, my hzphp project can help:
+    https://github.com/zhester/hzphp
+        --> tools/icon.php
+*/
+
+/* sprite set background positions for .button.* elements */
+@import url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?css=1&size=16" );
 
 a:hover {
   text-shadow: 0 0 4px #DDDDDD;
@@ -17,8 +27,8 @@ input, select, textarea {
 }
 select {
   cursor: pointer;
-  background-image: url("http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=arrow_down&color=%23DDDDDD&size=12");
+  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=arrow_down&color=%23DDDDDD&size=12" );
   background-repeat: no-repeat;
   background-position: calc( 100% - 3px ) 50%;
   /* one strange trick to make Firefox stop displaying the button */
@@ -56,19 +66,51 @@ input[type="button"]:hover {
   background-color: rgba( 220, 220, 220, 0.5 );
 }
 
-input[type="checkbox"] {
+.check {
+  list-style: none;
 }
-input[type="checkbox"]:checked {
+.check:after {
+  display: none;
+    content:
+      url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=x_fill&color=%23CCCCCC&size=16" )
+      url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=check_fill&color=%2333CC33&size=16" );
 }
-input[type="checkbox"]:checked + label {
-}
+  .check li {
+    margin: 0 2px;
+    padding: 0;
+  }
+  .check label {
+    display: inline-block;
+    margin: 0;
+    padding: 2px 4px 2px 24px;
+    border-radius: 1px;
+    cursor: pointer;
+    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=x_fill&color=%23CCCCCC&size=16" );
+    background-repeat: no-repeat;
+    background-position: 3px 50%;
+  }
+  .check label:hover {
+    background-color: rgba( 127, 127, 127, 0.07 );
+  }
+  .check input[type="checkbox"], .check input[type="radio"] {
+    display: none;
+  }
+  .check input[type="checkbox"]:checked + label,
+  .check input[type="radio"]:checked + label {
+    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=check_fill&color=%2333CC33&size=16" );
+  }
+/* ZIH - issues:
+  1. these inputs fall out of tab/keyboard access
+  2. unable to style based on focus state (or unable to trigger it?)
+  3. should make a "check and radio" sprite set within the icon theme
+     - make a square-ish pair of icons for inclusive controls
+     - the set should contain all color variations on the same image
+*/
 
-input[type="radio"] {
-}
-input[type="radio"]:checked {
-}
-input[type="radio"]:checked + label {
-}
 
 table.data {
   width: 100%;
@@ -106,7 +148,7 @@ table.data {
   padding: 0;
   border: solid 1px #CCCCCC;
   border-radius: 1px;
-  background-image: url(http://hzian.com/projects/source/hzphp/tools/icon.php?size=16);
+  background-image: url( http://hzian.com/projects/source/hzphp/tools/icon.php?size=16 );
   background-repeat: no-repeat;
   background-color: #E4E4E0;
   color: transparent;
@@ -124,8 +166,8 @@ table.data {
   }
   .button:disabled {
     cursor: default;
-    background-image: url("http://hzian.com/projects/source/hzphp/tools/\
-icon.php?size=16&color=%23CCCCCC");
+    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?size=16&color=%23CCCCCC" );
     background-color: #E4E4E0;
     border-color: #CCCCCC;
   }
@@ -168,22 +210,22 @@ icon.php?size=16&color=%23CCCCCC");
       min-height: 28px;
       padding-top: 10px;
       padding-left: 44px;
-      background-image: url("http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=x_fill&color=%23CC0000&size=28");
+      background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=x_fill&color=%23CC0000&size=28" );
     }
     .modal.info .message {
       min-height: 28px;
       padding-top: 10px;
       padding-left: 44px;
-      background-image: url("http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=info_fill&color=%23FFD633&size=28");
+      background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=info_fill&color=%23FFD633&size=28" );
     }
     .modal.query .message {
       min-height: 28px;
       padding-top: 10px;
       padding-left: 44px;
-      background-image: url("http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=question_fill&color=%23FF7519&size=28");
+      background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=question_fill&color=%23FF7519&size=28" );
     }
   .modal .control {
     margin: 0;
