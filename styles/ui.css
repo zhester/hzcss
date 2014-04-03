@@ -8,109 +8,141 @@ to host the generators yourself, my hzphp project can help:
         --> tools/icon.php
 */
 
+
+/* === Imports === */
+
 /* sprite set background positions for .button.* elements */
 @import url( "http://hzian.com/projects/source/hzphp/tools/\
 icon.php?css=1&size=16" );
 
-a:hover {
-  text-shadow: 0 0 4px #DDDDDD;
-  transition: all 0.25s ease;
-}
 
-input, select, textarea {
+/* === Layouts, Sizes, and Rendering === */
+
+input, select, textarea, .button {
   display: inline-block;
   margin: 0 2px;
   padding: 2px 5px;
-  font: inherit;
-  transition: all 500ms ease;
-  appearance: none;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 1px;
 }
 select {
-  cursor: pointer;
-  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=arrow_down&color=%23DDDDDD&size=12" );
-  background-repeat: no-repeat;
-  background-position: calc( 100% - 3px ) 50%;
   /* one strange trick to make Firefox stop displaying the button */
   text-indent: 0.01px;
   text-overflow: '';
 }
-
-input[type="text"], input[type="button"], select, textarea {
-  border: solid 1px rgba( 200, 200, 200, 0.2 );
-  background-color: rgba( 230, 230, 230, 0.3 );
+.button {
+  width: 26px;
+  height: 26px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
-
-input[type="text"], select, textarea {
-  border: solid 1px #DDDDDD;
-  border-top-color: #B4B4B4;
-  color: inherit;
-}
-input[type="text"]:hover, select:hover, textarea:hover {
-  border-color: #E0E0EF;
-  border-top-color: #777799;
-}
-input[type="text"]:focus, select:focus, textarea:focus {
-  border-color: #AAAAAA;
-  border-top-color: #555577;
-  background-color: rgba( 255, 255, 255, 0.3 );
-}
-
-input[type="button"] {
-  cursor: pointer;
-  font-weight: bold;
-}
-input[type="button"]:hover {
-  border: solid 1px #DDDDDD;
-  border-bottom-color: #BBBBBB;
-  background-color: rgba( 220, 220, 220, 0.5 );
-}
-
 .check {
   list-style: none;
 }
-.check:after {
-  display: none;
-    content:
-      url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=x_fill&color=%23CCCCCC&size=16" )
-      url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=check_fill&color=%2333CC33&size=16" );
+.check li {
+  margin: 0 2px;
+  padding: 0;
 }
-  .check li {
-    margin: 0 2px;
-    padding: 0;
+.check label {
+  display: inline-block;
+  margin: 0;
+  padding: 2px 4px 2px 24px;
+  border-radius: 1px;
+}
+.check input[type="checkbox"], .check input[type="radio"] {
+  display: none;
+}
+.bar {
+  margin: 0;
+  padding: 3px;
+}
+  .bar div {
+    float: right;
   }
-  .check label {
-    display: inline-block;
+  .bar h6 {
+    margin: 3px 0 3px 8px;
+    min-height: 20px;
+  }
+.modal {
+  position: absolute;
+  left: 30%;
+  top: 30%;
+  width: 40%;
+  z-index: 1000;
+  margin: 0;
+  padding: 0;
+}
+  .modal .message {
+    margin: 1em 0;
+    padding: 0.25em 1em;
+  }
+  .modal.error .message, .modal.info .message, .modal.query .message {
+    min-height: 28px;
+    padding-top: 10px;
+    padding-left: 44px;
+  }
+    .modal .message p:first-child {
+      margin-top: 0;
+    }
+    .modal .message p:last-child {
+      margin-bottom: 0;
+    }
+  .modal .control {
     margin: 0;
-    padding: 2px 4px 2px 24px;
+    padding: 0.25em 1em;
+    text-align: center;
+  }
+.view {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 60%;
+  height: 80%;
+  z-index: 500;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+  .view .content {
+    /* .bar{padding} + .bar h6{min-height} + .bar h6{margin} + padding */
+    height: calc( 100% - ( 6px + 20px + 6px + 8px ) );
+    margin: 0;
+    padding: 4px 1em;
+    border: none;
+    overflow: auto;
+  }
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+.gauge {
+  position: relative;
+  padding: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 1px;
+}
+  .gauge .gauge_fill {
+    position: absolute;
+    z-index: 9;
+    padding: 0;
+    border-style: none;
+    border-width: 0;
     border-radius: 1px;
-    cursor: pointer;
-    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=x_fill&color=%23CCCCCC&size=16" );
-    background-repeat: no-repeat;
-    background-position: 3px 50%;
+    white-space: nowrap;
+    overflow: hidden;
   }
-  .check label:hover {
-    background-color: rgba( 127, 127, 127, 0.07 );
+  .gauge .gauge_content {
+    position: relative;
+    padding: 0.1em 0.5em;
+    z-index: 10;
   }
-  .check input[type="checkbox"], .check input[type="radio"] {
-    display: none;
-  }
-  .check input[type="checkbox"]:checked + label,
-  .check input[type="radio"]:checked + label {
-    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=check_fill&color=%2333CC33&size=16" );
-  }
-/* ZIH - issues:
-  1. these inputs fall out of tab/keyboard access
-  2. unable to style based on focus state (or unable to trigger it?)
-  3. should make a "check and radio" sprite set within the icon theme
-     - make a square-ish pair of icons for inclusive controls
-     - the set should contain all color variations on the same image
-*/
-
 
 table.data {
   width: 100%;
@@ -118,6 +150,188 @@ table.data {
   padding: 0;
   border-collapse: collapse;
 }
+  table.data td, table.data th {
+    margin: 0;
+    padding: 2px 5px;
+    border-style: solid;
+    border-width: 1px;
+  }
+
+
+/* === Colors, Images, Fonts, and Effects === */
+
+input, select, textarea, .button {
+  appearance: none;
+  font: inherit;
+  color: #4E4E50;
+  border-color: #D0D0D0;
+  background-color: #F6F6F6;
+  background-repeat: no-repeat;
+  transition: all 400ms ease;
+  text-decoration: none;
+  /* outline: solid 2px rgba( 127, 127, 127, 0 ); */
+}
+select {
+  cursor: pointer;
+  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=arrow_down&color=%23DDDDDD&size=12" );
+  background-position: calc( 100% - 3px ) 50%;
+}
+input[type="text"], select, textarea {
+  border-top-color: #999999;
+}
+input[type="button"], .button {
+  cursor: pointer;
+  font-weight: bold;
+}
+.button {
+  color: transparent;
+  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?size=16" );
+}
+.check:after {
+  display: none;
+  content:
+    url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=x_fill&color=%23CCCCCC&size=16" )
+    url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=check_fill&color=%2333CC33&size=16" );
+}
+.check label {
+  cursor: pointer;
+  transition: all 400ms ease;
+  /* outline: solid 2px rgba( 127, 127, 127, 0 ); */
+  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=x_fill&color=%23CCCCCC&size=16" );
+  background-repeat: no-repeat;
+  background-position: 3px 50%;
+}
+/* ZIH - should make a "check and radio" sprite set within the icon theme
+       - make a square-ish pair of icons for inclusive controls
+       - the set should contain all color variations on the same image
+*/
+
+/* --- Interactive Effects --- */
+
+input[type="text"]:hover, select:hover, textarea:hover {
+  border-color: #E0E0F0;
+  border-top-color: #7070A0;
+  background-color: #FAFAFA;
+  /* outline-color: rgba( 127, 127, 127, 0.05 ); */
+}
+input[type="text"]:focus, select:focus, textarea:focus {
+  border-color: #909090;
+  border-top-color: #505070;
+  background-color: #FFFFFF;
+  /* outline-color: rgba( 127, 127, 127, 0.15 ); */
+}
+input[type="button"]:hover, .button:hover {
+  border-color: #C0C0C0;
+  border-bottom-color: #7070A0;
+  background-color: #FAFAFA;
+}
+input[type="button"]:active, .button:active {
+  border-color: #909090;
+  border-bottom-color: #505070;
+  background-color: #FFFFFF;
+}
+input[type="button"]:disabled, .button:disabled {
+  cursor: default;
+  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?size=16&color=%23CCCCCC" );
+  background-color: #E4E4E4;
+  border-color: #CCCCCC;
+}
+.check label:hover {
+  background-color: #FAFAFA;
+  /*  outline-color: rgba( 127, 127, 127, 0.05 ); */
+}
+.check input[type="checkbox"]:checked + label,
+.check input[type="radio"]:checked + label {
+  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=check_fill&color=%2333CC33&size=16" );
+}
+.check input[type="checkbox"] + label:focus,
+.check input[type="radio"] + label:focus {
+  color: #FFA500;
+  /* outline-color: rgba( 127, 127, 127, 0.15 ); */
+}
+.check input[type="checkbox"]:checked + label:focus,
+.check input[type="radio"]:checked + label:focus {
+  color: #33CC33;
+  /* outline-color: #33CC33; */
+}
+/* ZIH - go back and add focus and active styles to everything */
+
+.bar {
+  color: #DDDDDD;
+  background-color: #444444;
+}
+  .bar h6 {
+    color: inherit;
+  }
+.modal {
+  background-color: #FFFFFF;
+  box-shadow: 0 0 4px rgba( 0, 0, 0, 0.7 );
+}
+  .modal .message {
+    background-repeat: no-repeat;
+    background-position: 8px 50%;
+    background-color: transparent;
+  }
+  .modal.error .message {
+    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=x_fill&color=%23CC0000&size=28" );
+  }
+  .modal.info .message {
+    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=info_fill&color=%23FFD633&size=28" );
+  }
+  .modal.query .message {
+    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=question_fill&color=%23FF7519&size=28" );
+  }
+  .modal .control {
+    background-color: #F4F4F4;
+  }
+
+.view {
+  background-color: rgba( 255, 255, 255, 0.85 );
+  box-shadow: 0 0 4px rgba( 0, 0, 0, 0.7 );
+}
+.overlay {
+  background-color: rgba( 0, 0, 0, 0.4 );
+}
+
+.gauge {
+  color: #DDDDDD;
+  border-color: #E0E0F0;
+  background-color: #444444;
+  font-weight: bold;
+}
+  .gauge .gauge_fill {
+    background-color: #008822;
+    transition: width 150ms ease;
+  }
+  .gauge.pulse .gauge_fill {
+    background-repeat: repeat-x;
+    background-size: 48px 48px;
+    background-image: linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.1) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255,255,255,0.1) 50%,
+      rgba(255,255,255,0.1) 75%,
+      transparent 75%,
+      transparent
+    );
+    animation: pulse_loop 1.5s linear infinite;
+  }
+  @keyframes pulse_loop {
+    to { background-position: 48px 0; }
+  }
+
   table.data tr:hover td {
     text-shadow: 1px 2px 2px #BBBBBB;
     transition: all 0.25s ease;
@@ -135,182 +349,5 @@ table.data {
     background-color: #FFFFFF;
   }
   table.data td, table.data th {
-    margin: 0;
-    padding: 2px 5px;
-    border: solid 1px #FFFFFF;
+    border-color: #FFFFFF;
   }
-
-.button {
-  display: inline-block;
-  width: 26px;
-  height: 26px;
-  margin: 0;
-  padding: 0;
-  border: solid 1px #CCCCCC;
-  border-radius: 1px;
-  background-image: url( http://hzian.com/projects/source/hzphp/tools/icon.php?size=16 );
-  background-repeat: no-repeat;
-  background-color: #E4E4E0;
-  color: transparent;
-  transition:
-    background-color 0.25s ease,
-    background-image 0.25s ease,
-    border-color 0.15s ease;
-}
-  .button:hover {
-    cursor: pointer;
-    background-color: #FFFFFF;
-  }
-  .button:active {
-    border-color: #000044;
-  }
-  .button:disabled {
-    cursor: default;
-    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?size=16&color=%23CCCCCC" );
-    background-color: #E4E4E0;
-    border-color: #CCCCCC;
-  }
-
-.modal {
-  position: absolute;
-  left: 30%;
-  top: 30%;
-  width: 40%;
-  z-index: 1000;
-  margin: 0;
-  padding: 0;
-  background-color: #FFFFFF;
-  box-shadow: 0 0 4px rgba( 0, 0, 0, 0.7 );
-}
-  .modal .bar {
-    margin: 0;
-    padding: 3px;
-    color: #DDDDDD;
-    background-color: #444444;
-  }
-    .modal .bar div {
-      float: right;
-    }
-    .modal .bar h6 {
-      margin: 3px 0 3px 8px;
-      min-height: 20px;
-      color: inherit;
-    }
-  .modal .message {
-    margin: 1em 0;
-    padding: 0.25em 1em;
-  }
-    .modal .message {
-      background-repeat: no-repeat;
-      background-position: 8px 50%;
-      background-color: transparent;
-    }
-    .modal.error .message {
-      min-height: 28px;
-      padding-top: 10px;
-      padding-left: 44px;
-      background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=x_fill&color=%23CC0000&size=28" );
-    }
-    .modal.info .message {
-      min-height: 28px;
-      padding-top: 10px;
-      padding-left: 44px;
-      background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=info_fill&color=%23FFD633&size=28" );
-    }
-    .modal.query .message {
-      min-height: 28px;
-      padding-top: 10px;
-      padding-left: 44px;
-      background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=question_fill&color=%23FF7519&size=28" );
-    }
-  .modal .control {
-    margin: 0;
-    padding: 0.25em 1em;
-    background-color: #F4F4F4;
-    text-align: center;
-  }
-
-#viewer {
-  position: absolute;
-  top: 10%;
-  left: 20%;
-  width: 60%;
-  height: 80%;
-  z-index: 500;
-  margin: 0;
-  padding: 0;
-  border: none;
-  background-color: rgba( 255, 255, 255, 0.8 );
-  box-shadow: 0 0 4px rgba( 0, 0, 0, 0.7 );
-}
-  #viewer .content {
-    /* .bar{padding} + .bar h6{min-height} + .bar h6{margin} + padding */
-    height: calc( 100% - ( 6px + 20px + 6px + 8px ) );
-    margin: 0;
-    padding: 4px 1em;
-    border: none;
-    overflow: auto;
-  }
-
-.overlay {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  background-color: #000000;
-  opacity: 0.4;
-}
-
-.progress {
-  padding: 0.1em 0.5em;
-  border: solid 1px #666666;
-  border-radius: 3px;
-  color: #EEEEEE;
-  background-color: #0044BB;
-  background-repeat: repeat-x;
-  background-size: 48px 48px;
-  background-image: linear-gradient(
-    -45deg,
-    rgba(255,255,255,0.15) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255,255,255,0.15) 50%,
-    rgba(255,255,255,0.15) 75%,
-    transparent 75%,
-    transparent
-  );
-  font-weight: bold;
-  animation: progress_loop 1s linear infinite;
-}
-@keyframes progress_loop {
-  to { background-position: 48px 0; }
-}
-.progress_wrapper {
-  position: relative;
-  border: solid 1px #666666;
-  border-radius: 3px;
-  background-color: #888888;
-}
-.progress_wrapper .progress {
-  position: absolute;
-  z-index: 9;
-  width: 0;
-  padding: 0;
-  border: none;
-  white-space: nowrap;
-  overflow: hidden;
-  transition: width 0.1s ease;
-}
-.progress_content {
-  position: relative;
-  z-index: 10;
-  padding: 0.1em 0.5em;
-  color: #EEEEEE;
-  font-weight: bold;
-}
