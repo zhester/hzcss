@@ -63,7 +63,7 @@ select {
   }
   .bar h6 {
     margin: 3px 0 3px 8px;
-    min-height: 20px;
+    height: 20px;
   }
 .modal {
   position: absolute;
@@ -106,7 +106,7 @@ select {
   border: none;
 }
   .view .content {
-    /* .bar{padding} + .bar h6{min-height} + .bar h6{margin} + padding */
+    /* .bar{padding} + .bar h6{height} + .bar h6{margin} + padding */
     height: calc( 100% - ( 6px + 20px + 6px + 8px ) );
     margin: 0;
     padding: 4px 1em;
@@ -143,6 +143,52 @@ select {
     padding: 0.1em 0.5em;
     z-index: 10;
   }
+  .gauge span {
+    position: absolute;
+    top: 0.1em;
+    right: 0.5em;
+    z-index: 11;
+  }
+.form>div {
+  margin: 0.5em 0;
+}
+  .form .field label {
+    display: inline-block;
+    margin: 0.1em 1em 0.1em 0;
+    padding: 0.5em 1em;
+    width: 25%;
+    vertical-align: middle;
+    border-right-width: 2px;
+    border-right-style: solid;
+    text-align: right;
+  }
+    .form .field label span {
+      display: block;
+      font-size: 80%;
+    }
+  .form .field>span {
+    display: inline-block;
+    margin: 0.1em 0;
+    padding: 0.5em 0;
+    /* 100% - label{width + margin + padding + border} */
+    width: calc( 100% - ( 25% + 1em + 2em + 2px ) );
+    vertical-align: middle;
+    overflow: hidden;
+  }
+.form .control {
+  margin-top: 1em;
+  padding: 1em;
+  border-top-width: 2px;
+  border-top-style: solid;
+  text-align: center;
+}
+.form input[type="text"], .form textarea {
+  /* 100% - input{margin + padding + border} */
+  width: calc( 100% - ( 4px + 10px + 2px ) );
+}
+.form textarea {
+  min-height: 12em;
+}
 
 table.data {
   width: 100%;
@@ -177,7 +223,7 @@ select {
 icon.php?id=arrow_down&color=%23DDDDDD&size=12" );
   background-position: calc( 100% - 3px ) 50%;
 }
-input[type="text"], select, textarea {
+input[type="text"], input[type="file"], select, textarea {
   border-top-color: #999999;
 }
 input[type="button"], .button {
@@ -213,13 +259,16 @@ icon.php?id=x_fill&color=%23CCCCCC&size=16" );
 
 /* --- Interactive Effects --- */
 
-input[type="text"]:hover, select:hover, textarea:hover {
+input[type="text"]:hover,
+input[type="file"]:hover,
+select:hover,
+textarea:hover {
   border-color: #E0E0F0;
   border-top-color: #7070A0;
   background-color: #FAFAFA;
   /* outline-color: rgba( 127, 127, 127, 0.05 ); */
 }
-input[type="text"]:focus, select:focus, textarea:focus {
+input[type="text"]:focus, input[type="file"], select:focus, textarea:focus {
   border-color: #909090;
   border-top-color: #505070;
   background-color: #FFFFFF;
@@ -261,7 +310,7 @@ icon.php?id=check_fill&color=%2333CC33&size=16" );
   color: #33CC33;
   /* outline-color: #33CC33; */
 }
-/* ZIH - go back and add focus and active styles to everything */
+/* ZIH - go back and add focus, active, and disabled styles to everything */
 
 .bar {
   color: #DDDDDD;
@@ -273,6 +322,7 @@ icon.php?id=check_fill&color=%2333CC33&size=16" );
 .modal {
   background-color: #FFFFFF;
   box-shadow: 0 0 4px rgba( 0, 0, 0, 0.7 );
+  transition: opacity 500ms linear;
 }
   .modal .message {
     background-repeat: no-repeat;
@@ -301,6 +351,7 @@ icon.php?id=question_fill&color=%23FF7519&size=28" );
 }
 .overlay {
   background-color: rgba( 0, 0, 0, 0.4 );
+  transition: opacity 500ms linear;
 }
 
 .gauge {
@@ -318,11 +369,11 @@ icon.php?id=question_fill&color=%23FF7519&size=28" );
     background-size: 48px 48px;
     background-image: linear-gradient(
       -45deg,
-      rgba(255,255,255,0.1) 25%,
+      rgba( 255, 255, 255, 0.1 ) 25%,
       transparent 25%,
       transparent 50%,
-      rgba(255,255,255,0.1) 50%,
-      rgba(255,255,255,0.1) 75%,
+      rgba( 255, 255, 255, 0.1 ) 50%,
+      rgba( 255, 255, 255, 0.1 ) 75%,
       transparent 75%,
       transparent
     );
@@ -331,6 +382,17 @@ icon.php?id=question_fill&color=%23FF7519&size=28" );
   @keyframes pulse_loop {
     to { background-position: 48px 0; }
   }
+
+  .form .field label {
+
+    border-right-color: #CCCCCC;
+  }
+    .form .field label span {
+      color: #777777;
+    }
+.form .control {
+  border-top-color: #CCCCCC;
+}
 
   table.data tr:hover td {
     text-shadow: 1px 2px 2px #BBBBBB;
