@@ -316,7 +316,7 @@ icon.php?id=check_fill&color=%2333CC33&size=16" );
   color: #DDDDDD;
   background-color: #444444;
 }
-  .bar h6 {
+  .bar h1, .bar h2, .bar h3, .bar h4, .bar h5, .bar h6, .bar p {
     color: inherit;
   }
 .modal {
