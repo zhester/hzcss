@@ -219,7 +219,7 @@ input, select, textarea, .button {
 select {
   cursor: pointer;
   background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=arrow_down&color=%23DDDDDD&size=12" );
+icon.php?id=chevron_down&color=%23DDDDDD&size=12" );
   background-position: calc( 100% - 3px ) 50%;
 }
 input[type="text"], input[type="file"], select, textarea {
