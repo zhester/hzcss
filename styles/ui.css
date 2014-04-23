@@ -18,7 +18,7 @@ icon.php?css=1&size=16" );
 
 /* === Layouts, Sizes, and Rendering === */
 
-input, select, textarea, .button {
+input, select, textarea, .button, .input {
   display: inline-block;
   margin: 0 2px;
   padding: 2px 5px;
@@ -149,6 +149,7 @@ select {
     right: 0.5em;
     z-index: 11;
   }
+
 .form>div {
   margin: 0.5em 0;
 }
@@ -190,6 +191,56 @@ select {
   min-height: 12em;
 }
 
+.efile {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+}
+  .efile input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 47px;
+    width: 100%;
+  }
+  .efile p:nth-child(2) {
+    display: inline-block;
+    width: calc( 100% - 44px );
+    height: 32px;
+    margin: 0;
+    padding: 12px 6px 3px 38px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  .efile p:nth-child(3) {
+    margin: 0;
+    padding: 3px 6px;
+  }
+  .efile table {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+  }
+    .efile td {
+      margin: 0;
+      padding: 3px 6px;
+      border-right-style: solid;
+      border-right-width: 1px;
+    }
+    .efile td:last-child {
+      border-right: none;
+    }
+    .efile table tr.summary td {
+      border-top-style: solid;
+      border-top-width: 1px;
+    }
+
 table.data {
   width: 100%;
   margin: 0.5em 0;
@@ -206,7 +257,7 @@ table.data {
 
 /* === Colors, Images, Fonts, and Effects === */
 
-input, select, textarea, .button {
+input, select, textarea, .button, .input {
   font: inherit;
   color: #4E4E50;
   border-color: #D0D0D0;
@@ -225,7 +276,8 @@ icon.php?id=chevron_down&color=%23DDDDDD&size=12" );
 input[type="text"], input[type="file"], select, textarea {
   border-top-color: #999999;
 }
-input[type="button"], .button {
+input[type="button"], input[type="submit"], input[type="reset"],
+  .button, .input {
   cursor: pointer;
   font-weight: bold;
 }
@@ -273,17 +325,20 @@ input[type="text"]:focus, input[type="file"], select:focus, textarea:focus {
   background-color: #FFFFFF;
   /* outline-color: rgba( 127, 127, 127, 0.15 ); */
 }
-input[type="button"]:hover, .button:hover {
+input[type="button"]:hover, input[type="submit"]:hover,
+  input[type="reset"]:hover, .button:hover, .input:hover {
   border-color: #C0C0C0;
   border-bottom-color: #7070A0;
   background-color: #FAFAFA;
 }
-input[type="button"]:active, .button:active {
+input[type="button"]:active, input[type="submit"]:active,
+  input[type="reset"]:active, .button:active, .input:active {
   border-color: #909090;
   border-bottom-color: #505070;
   background-color: #FFFFFF;
 }
-input[type="button"]:disabled, .button:disabled {
+input[type="button"]:disabled, input[type="submit"]:disabled,
+  input[type="reset"]:disabled, .button:disabled {
   cursor: default;
   background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
 icon.php?size=16&color=%23CCCCCC" );
@@ -383,7 +438,6 @@ icon.php?id=question_fill&color=%23FF7519&size=28" );
   }
 
   .form .field label {
-
     border-right-color: #CCCCCC;
   }
     .form .field label span {
@@ -392,6 +446,40 @@ icon.php?id=question_fill&color=%23FF7519&size=28" );
 .form .control {
   border-top-color: #CCCCCC;
 }
+
+.efile {
+  border-color: #CCCCCC;
+}
+  .efile input {
+    opacity: 0;
+    cursor: pointer;
+  }
+  .efile p:nth-child(2) {
+    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+icon.php?id=upload&size=32" );
+    background-repeat: no-repeat;
+    background-position: 4px 50%;
+    font-weight: bold;
+  }
+  .efile p:nth-child(3) {
+    color: #BBBBBB;
+    font-weight: bold;
+  }
+    .efile td {
+      border-right-color: #EEEEEE;
+    }
+    .efile table tr:nth-child(odd) td {
+      color: inherit;
+      background-color: #FFFFE0;
+    }
+    .efile table tr:nth-child(even) td {
+      color: inherit;
+      background-color: #FFFFFF;
+    }
+    .efile table tr.summary td {
+      color: #999999;
+      border-top-color: #EEEEEE;
+    }
 
   table.data tr:hover td {
     text-shadow: 1px 2px 2px #BBBBBB;
