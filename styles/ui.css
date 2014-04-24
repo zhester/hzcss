@@ -249,6 +249,11 @@ table.data {
     border-style: solid;
     border-width: 1px;
   }
+  table.data td.truncate, table.data th.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
 
 /* === Colors, Images, Fonts, and Effects === */
