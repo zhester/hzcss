@@ -123,31 +123,27 @@ select {
 }
 .gauge {
   position: relative;
-  padding: 0;
   border-style: solid;
   border-width: 1px;
   border-radius: 1px;
 }
-  .gauge .gauge_fill {
+  .gauge>div:first-child {
     position: absolute;
-    z-index: 9;
-    padding: 0;
+    height: 100%;
     border-style: none;
     border-width: 0;
     border-radius: 1px;
     white-space: nowrap;
     overflow: hidden;
   }
-  .gauge .gauge_content {
+  .gauge>div:nth-child(2) {
     position: relative;
     padding: 0.1em 0.5em;
-    z-index: 10;
   }
   .gauge span {
     position: absolute;
     top: 0.1em;
     right: 0.5em;
-    z-index: 11;
   }
 
 .form>div {
@@ -414,11 +410,11 @@ icon.php?id=question_fill&color=%23FF7519&size=28" );
   background-color: #444444;
   font-weight: bold;
 }
-  .gauge .gauge_fill {
+  .gauge>div:first-child {
     background-color: #008822;
     transition: width 150ms ease;
   }
-  .gauge.pulse .gauge_fill {
+  .gauge.pulse>div:first-child {
     background-repeat: repeat-x;
     background-size: 48px 48px;
     background-image: linear-gradient(
