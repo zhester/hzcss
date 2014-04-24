@@ -25,6 +25,7 @@ input, select, textarea, .button, .input {
   border-style: solid;
   border-width: 1px;
   border-radius: 1px;
+  vertical-align: middle;
 }
 select {
   /* one strange trick to make Firefox stop displaying the button */
@@ -38,6 +39,10 @@ select {
   padding: 0;
   overflow: hidden;
 }
+  a.button {
+    height: 24px;
+    width: 24px;
+  }
 .check {
   list-style: none;
 }
