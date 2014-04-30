@@ -12,7 +12,7 @@ to host the generators yourself, my hzphp project can help:
 /* === Imports === */
 
 /* sprite set background positions for .button.* elements */
-@import url( "http://hzian.com/projects/source/hzphp/tools/\
+@import url( "../../hzphp/tools/\
 icon.php?css=1&size=16" );
 
 
@@ -276,7 +276,7 @@ input, select, textarea, .button, .input {
 }
 select {
   cursor: pointer;
-  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+  background-image: url( "../../hzphp/tools/\
 icon.php?id=chevron_down&color=%23DDDDDD&size=12" );
   background-position: calc( 100% - 3px ) 50%;
 }
@@ -290,22 +290,19 @@ input[type="button"], input[type="submit"], input[type="reset"],
 }
 .button {
   color: transparent;
-  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?size=16" );
+  background-image: url( "../../hzphp/tools/icon.php?size=16" );
 }
 .check:after {
   display: none;
   content:
-    url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=x_fill&color=%23CCCCCC&size=16" )
-    url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=check_fill&color=%2333CC33&size=16" );
+    url( "../../hzphp/tools/icon.php?id=x_fill&color=%23CCCCCC&size=16" )
+    url( "../../hzphp/tools/icon.php?id=check_fill&color=%2333CC33&size=16" );
 }
 .check label {
   cursor: pointer;
   transition: all 400ms ease;
   /* outline: solid 2px rgba( 127, 127, 127, 0 ); */
-  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+  background-image: url( "../../hzphp/tools/\
 icon.php?id=x_fill&color=%23CCCCCC&size=16" );
   background-repeat: no-repeat;
   background-position: 3px 50%;
@@ -347,8 +344,7 @@ input[type="button"]:active, input[type="submit"]:active,
 input[type="button"]:disabled, input[type="submit"]:disabled,
   input[type="reset"]:disabled, .button:disabled {
   cursor: default;
-  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?size=16&color=%23CCCCCC" );
+  background-image: url( "../../hzphp/tools/icon.php?size=16&color=%23CCCCCC" );
   background-color: #E4E4E4;
   border-color: #CCCCCC;
 }
@@ -358,7 +354,7 @@ icon.php?size=16&color=%23CCCCCC" );
 }
 .check input[type="checkbox"]:checked + label,
 .check input[type="radio"]:checked + label {
-  background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+  background-image: url( "../../hzphp/tools/\
 icon.php?id=check_fill&color=%2333CC33&size=16" );
 }
 .check input[type="checkbox"] + label:focus,
@@ -391,15 +387,15 @@ icon.php?id=check_fill&color=%2333CC33&size=16" );
     background-color: transparent;
   }
   .modal.error .message {
-    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+    background-image: url( "../../hzphp/tools/\
 icon.php?id=x_fill&color=%23CC0000&size=28" );
   }
   .modal.info .message {
-    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+    background-image: url( "../../hzphp/tools/\
 icon.php?id=info_fill&color=%23FFD633&size=28" );
   }
   .modal.query .message {
-    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
+    background-image: url( "../../hzphp/tools/\
 icon.php?id=question_fill&color=%23FF7519&size=28" );
   }
   .modal .control {
@@ -462,8 +458,7 @@ icon.php?id=question_fill&color=%23FF7519&size=28" );
     cursor: pointer;
   }
   .efile p:nth-child(2) {
-    background-image: url( "http://hzian.com/projects/source/hzphp/tools/\
-icon.php?id=upload&size=32" );
+    background-image: url( "../../hzphp/tools/icon.php?id=upload&size=32" );
     background-repeat: no-repeat;
     background-position: 4px 50%;
     font-weight: bold;
